@@ -1,11 +1,14 @@
 <template>
   <div class="hello">
-    <swiper :options="swiperOption" class="swiper-wrap" ref="mySwiper" v-if="banner.length!=0">
-      <swiper-slide v-for="(item,index) in banner" :key="index">
-        <img :src="item.image" alt>
+    <swiper :options="swiperOption" class="swiper-wrap" ref="mySwiper">
+      <swiper-slide class="slide1">
+      </swiper-slide>
+      <swiper-slide class="slide2">
+      </swiper-slide>
+      <swiper-slide class="slide3">
       </swiper-slide>
       <!-- 常见的小圆点 -->
-      <div class="swiper-pagination" v-for="(item,index) in banner" :key="index" slot="pagination"></div>
+      <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
   </div>
 </template>
@@ -16,20 +19,6 @@ export default {
   data() {
     const that = this;
     return {
-      banner: [
-        {
-          image: require("../assets/images/banner.jpg")
-        },
-        {
-          image: require("../assets/images/banner.jpg")
-        },
-        {
-          image: require("../assets/images/banner.jpg")
-        },
-        {
-          image: require("../assets/images/banner.jpg")
-        }
-      ],
       imgIndex: 1,
       swiperOption: {
         //是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
@@ -77,13 +66,28 @@ export default {
     top: 0;
 }
 .swiper-wrap{
-    width: 100%;
-    min-width: 1100px;
     height: 436px;
     img{
-    width: 100%;
-    min-width: 1100px;
-    height: 436px;
+      position: relative;
+      height: 436px;
     }
+}
+.slide1{
+  height: 100%;
+  width: 100%;
+  background: url(./images/banner.jpg) no-repeat center top;
+  background-size: cover;
+}
+.slide2{
+    height: 100%;
+  width: 100%;
+  background: url(./images/banner.jpg) no-repeat center top;
+  background-size: cover;
+}
+.slide3{
+    height: 100%;
+  width: 100%;
+  background: url(./images/banner.jpg) no-repeat center top;
+  background-size: cover;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <!-- <vHeader></vHeader> -->
+    <vHeader></vHeader>
     <login class="log"></login>
-    <!-- <Swiper class="cf"></Swiper> -->
+    <Swiper class="cf"></Swiper>
   </div>
 </template>
 
@@ -22,5 +22,13 @@ export default {
 }
 </script>
 <style lang="less">
-
+.home{
+  position: relative;
+}
+  .log{
+    position: absolute;
+    right: 36px;
+    top: 96px;
+    z-index: 100;
+  }
 </style>

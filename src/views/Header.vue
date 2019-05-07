@@ -12,14 +12,17 @@
         <li>登录</li>
         <li>注册</li>
     </ul>
+    <!-- <login></login> -->
   </div>
+  
 </template>
 
 <script>
+import login from '@/components/Login.vue'
 export default {
   name: 'vheader',
   components: {
-    
+    login
   }
 }
 </script>

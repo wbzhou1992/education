@@ -1,21 +1,24 @@
 <template>
-  <div class="login">
+  <div class="login-box">
     <ul class="tab cf">
       <li @click="current=1" :class="current==1 ? 'active' : ''">免费注册</li>
       <li @click="current=2" :class="current==2 ? 'active' : ''">立即登录</li>
     </ul>
     <div v-if="current===1" class="login-tab">
       <div class="box">
-        手机号
+        <span class="text">手机号</span>
         <input v-model="phone" placeholder="注册手机号">
       </div>
       <div class="box">
-        密码
+        
+        <span class="text">密码</span>
         <input v-model="passward" placeholder="设置登录密码">
         <i class="open-eyes" @click="eyesSwitch($event)"></i>
       </div>
       <div class="box">
-        验证码
+        
+        <span class="text">验证码</span>
+
         <input v-model="valicode" placeholder="图形验证码">
         <a class="validimg">
             <img src="./images/verifyCode.png">
@@ -34,14 +37,16 @@
     </div>
     <div v-if="current===2" class="register-tab">
       <div class="box">
-        手机号
+                <span class="text">手机号</span>
+
         <input v-model="phone" placeholder="输入手机号">
       </div>
       <div class="box">
-        密码
+        
+        <span class="text">密码</span>
         <input v-model="passward" placeholder="输入密码">
       </div>
-      <div class="log">立即登录</div>
+      <div class="log-rightnow">立即登录</div>
     </div>
   </div>
 </template>
