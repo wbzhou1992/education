@@ -1,0 +1,100 @@
+.login{
+    width: 340px;
+    height: 355px;
+    background: #fff;
+    opacity: 0.92;
+    border-radius: 3px;
+    .tab{
+        height: 51px;
+        li{
+            float: left;
+            width: 50%;
+            font-size: 24px;
+            text-align: center;
+            padding-top: 16px;
+            cursor: pointer;
+            &.active{
+                color: #ff6803;
+            }
+        }
+    }
+    .login-tab,.register-tab{
+        margin:16px 20px;
+    }
+    .agree{
+        font-size: 12px;
+        margin-bottom: 36px;
+        .checkstatus{
+            float: left;
+            margin-right: 10px;
+        }
+        .agreement{
+            float:left;
+            a{
+                color: #53a0e3;
+            }
+        }
+        .check{
+            display: inline-block;
+            height: 16px;
+            width: 16px;
+            cursor: pointer;
+            background: url(../images/btn-check.png) no-repeat;
+            background-size: contain;
+        }
+        .not{
+            background: url(../images/btn-notcheck.png) no-repeat;
+            background-size: contain;
+        }
+    }
+    .register,.log{
+        width: 100%;
+        font-size: 18px;
+        line-height: 40px;
+        border-radius: 3px;
+        color: #fff;
+    }
+    .register{
+        background: #ff8b20;
+    }
+    .log{
+        background: #77b716;
+    }
+    .box{
+        line-height: 35px;
+        text-align: left;
+        width: 100%;
+        font-size: 18px;
+        margin-bottom: 20px;
+         border-bottom: 1px solid #dfdfdf;
+         color: #000;
+         position: relative;
+        input{
+            width: 210px;
+            padding: 10px 0 10px 10px;
+           
+        }
+    }
+    .open-eyes{
+      width: 60px;
+      height: 40px;
+      background: url(../images/eye.png) no-repeat;
+      background-size: contain;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      &.close {
+        background: url(../images/closeeye.png) no-repeat;
+        background-size: contain;
+      }
+    }
+    .validimg{
+        img{
+        display:inline-block;
+        height: 40px; 
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        }
+    }
+}
