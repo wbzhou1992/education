@@ -17,6 +17,11 @@ axios.defaults.transformRequest = [function (data) {
     return ret.slice(0, ret.length - 1);
 
 }]
+axios.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+  config.headers.common['Authorization'] = 'Bearer ' + token;
+  return config;
+})
 Vue.prototype.$axios = axios;
 Vue.prototype.tool = tool;
 Vue.use(vueSwiper);

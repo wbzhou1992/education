@@ -7,6 +7,7 @@
         <li>辅导教材</li>
         <li>题库</li>
         <li>直播</li>
+        <router-link to="/about" tag="li">关于我们</router-link>
     </ul>
     <ul class="login">
         <li>登录</li>

@@ -1,4 +1,7 @@
 export default {
+  getPhone: function(phone){
+    return phone.replace(/(\d{3})\d{5}(\d{3})/g,'$1*****$2')
+  },
   cookie: {
     add (name, value, iDay, domain) {
       if (!iDay) return

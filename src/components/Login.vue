@@ -1,93 +1,109 @@
 <template>
-  <div class="login-box">
-    <ul class="tab cf">
-      <li
-        v-for="(item,index) in tabs"
-        @click="change(index)"
-        :key="index"
-        :class="current==index ? 'active' : ''"
-      >{{item.name}}</li>
-    </ul>
-    <div v-if="current===0" class="login-tab">
-      <div class="box-cont">
-        <div class="box">
-          <span class="text">手机号</span>
-          <input v-model="phone" @blur="validatePhone($event.target.value)" placeholder="注册手机号">
+  <div>
+    <div class="login-box" v-if="!isLogin">
+      <ul class="tab cf">
+        <li
+          v-for="(item,index) in tabs"
+          @click="change(index)"
+          :key="index"
+          :class="current==index ? 'active' : ''"
+        >{{item.name}}</li>
+      </ul>
+      <div v-if="current===0" class="login-tab">
+        <div class="box-cont">
+          <div class="box">
+            <span class="text">手机号</span>
+            <input v-model="phone" @blur="validatePhone($event.target.value)" placeholder="注册手机号">
+          </div>
+          <div v-show="isPhoneErr" class="err-box">
+            <i class="err-icon"></i>
+            <span class="err">{{phoneErr}}</span>
+          </div>
         </div>
-        <div v-show="isPhoneErr" class="err-box">
-          <i class="err-icon"></i>
-          <span class="err">{{phoneErr}}</span>
+        <div class="box-cont">
+          <div class="box">
+            <span class="text">密码</span>
+            <input v-model="password" type="password" @blur="validatePwd($event.target.value)" placeholder="设置登录密码">
+            <i class="open-eyes close" @click="eyesSwitch($event)"></i>
+          </div>
+          <div v-show="isPwdErr" class="err-box">
+            <i class="err-icon"></i>
+            <span class="err">{{pwdErr}}</span>
+          </div>
         </div>
-      </div>
-      <div class="box-cont">
-        <div class="box">
-          <span class="text">密码</span>
-          <input v-model="password" type="password" @blur="validatePwd($event.target.value)" placeholder="设置登录密码">
-          <i class="open-eyes close" @click="eyesSwitch($event)"></i>
+        <div class="box-cont" v-if="isImgValicodeShow">
+          <div class="box">
+            <span class="text">验证码</span>
+            <input v-model="imgValicode" @blur="validateImgCode($event.target.value)" placeholder="图形验证码" :disabled="isPhoneErr">
+            <a class="validimg">
+              <span class="imgcode" v-html="imgCodeDom" @click="refreshImgCode"></span>
+            </a>
+          </div>
+          <div v-show="isImgValicodeErr" class="err-box">
+            <i class="err-icon"></i>
+            <span class="err">{{imgCodeErr}}</span>
+          </div>
         </div>
-        <div v-show="isPwdErr" class="err-box">
-          <i class="err-icon"></i>
-          <span class="err">{{pwdErr}}</span>
+        <div class="box-cont validcode" v-if="isValidcodeShow">
+          <div class="box">
+            <span class="text">验证码</span>
+            <input v-model="valicode" @blur="validateCode($event.target.value)" placeholder="短信验证码">
+            <a class="validimg">
+              <span class="count" v-if="!isCodeAgain">{{countDown}}</span>
+              <span class="again" v-else @click="getCodeAgain">重新获取</span>
+            </a>
+          </div>
+          <div v-show="isImgValicodeErr" class="err-box">
+            <i class="err-icon"></i>
+            <span class="err">{{codeErr}}</span>
+          </div>
         </div>
-      </div>
-      <div class="box-cont" v-if="isImgValicodeShow">
-        <div class="box">
-          <span class="text">验证码</span>
-          <input v-model="imgValicode" @blur="validateImgCode($event.target.value)" placeholder="图形验证码">
-          <a class="validimg">
-            <span class="imgcode" v-html="imgCodeDom" @click="refreshImgCode"></span>
+        <div class="agree cf">
+          <a class="checkstatus" @click="check">
+            <span v-if="isCheck" class="check"></span>
+            <span v-else class="check not"></span>
           </a>
+          <p class="agreement">
+            我已阅读并同意
+            <a href>《注册服务协议》</a>
+          </p>
         </div>
-        <div v-show="isImgValicodeErr" class="err-box">
-          <i class="err-icon"></i>
-          <span class="err">{{imgCodeErr}}</span>
-        </div>
+        <div class="register" @click="register">免费注册</div>
       </div>
-      <div class="box-cont validcode" v-if="isValidcodeShow">
-        <div class="box">
-          <span class="text">验证码</span>
-          <input v-model="valicode" @blur="validateCode($event.target.value)" placeholder="短信验证码">
-          <a class="validimg">
-            <span class="count" v-if="!isCodeAgain">{{countDown}}</span>
-            <span class="again" v-else @click="getCodeAgain">重新获取</span>
-          </a>
+      <div v-if="current===1" class="register-tab">
+        <div class="box-cont">
+          <div class="box">
+            <span class="text">手机号</span>
+            <input v-model="phoneNum" placeholder="输入手机号">
+          </div>
+          <div v-show="isPhoneNumErr" class="err-box">
+            <i class="err-icon"></i>
+            <span class="err">{{phoneNumErr}}</span>
+          </div>
         </div>
-        <div v-show="isImgValicodeErr" class="err-box">
-          <i class="err-icon"></i>
-          <span class="err">{{codeErr}}</span>
+        <div class="box-cont">
+          <div class="box">
+            <span class="text">密码</span>
+            <input v-model="pwd" placeholder="输入密码">
+          </div>
+          <div v-show="isPasswordErr" class="err-box">
+            <i class="err-icon"></i>
+            <span class="err">{{passwordErr}}</span>
+          </div>
         </div>
+      
+        <div class="log-rightnow" @click="login">立即登录</div>
       </div>
-      <div class="agree cf">
-        <a class="checkstatus" @click="check">
-          <span v-if="isCheck" class="check"></span>
-          <span v-else class="check not"></span>
-        </a>
-        <p class="agreement">
-          我已阅读并同意
-          <a href>《注册服务协议》</a>
-        </p>
-      </div>
-      <div class="register" @click="register">免费注册</div>
+  </div>
+  <div class="success-box" v-else>
+    <p class="welcome">
+      欢迎来到学习网
+    </p>
+    <div class="success">
+      <p>您当前登陆的账户，{{username}}</p>
+      <a href="">发现课程</a>
     </div>
-    <div v-if="current===1" class="register-tab">
-      <div class="box-cont">
-        <div class="box">
-          <span class="text">手机号</span>
-          <input v-model="phoneNum" placeholder="输入手机号">
-        </div>
-      </div>
-      <div class="box-cont">
-        <div class="box">
-          <span class="text">密码</span>
-          <input v-model="pwd" placeholder="输入密码">
-        </div>
-      </div>
-      <div v-show="isLoginErr" class="err-box">
-        <i class="err-icon"></i>
-        <span class="err">{{loginErr}}</span>
-      </div>
-      <div class="log-rightnow" @click="login">立即登录</div>
-    </div>
+  </div>
   </div>
 </template>
 
@@ -110,26 +126,32 @@ export default {
       codeErr: "验证码错误",
       pwdErr: "密码输入错误",
       loginErr: "用户名或密码错误",
+      passwordErr: "请输入密码",
+      phoneNumErr: "请输入手机号",
       isPhoneErr: false,
       isPwdErr: false,
       isImgValicodeErr: false,
       isPhoneErr: false,
       isLoginErr: false,
+      isPhoneNumErr: false,
+      isPasswordErr: false,
       phoneNum: "",
       pwd: "",
       imgCodeDom:'',
       countDown: '112s',
-      isCodeAgain: false
+      isCodeAgain: false,
+      username: '',
+      isLogin: false
     };
   },
   created () {
-    this.$axios
-    .get("/register/authcode",{
-        t:Math.random()
-    })
-    .then(res => {
-        this.imgCodeDom = res.data.img
-    })
+    this.username = this.tool.cookie.get('user')
+    if(this.username){
+      this.isLogin = true
+    }else{
+      this.isLogin = false
+      this.refreshImgCode()
+    }
   },
   methods: {
     eyesSwitch (ele) {
@@ -167,10 +189,15 @@ export default {
     change (index) {
       if (index == 0) {
         this.phone = ""
-        this.passward = ""
+        this.password = ""
         this.valicode = ""
         this.imgValicode = ""
         this.isPhoneErr = false
+        this.isImgValicodeErr = ""
+        this.isPhoneNumErr = false,
+        this.isPasswordErr = false,
+        this.pwd = ""
+        this.phoneNum = ""
       } else {
         this.phoneNum = ""
         this.pwd = ""
@@ -190,7 +217,10 @@ export default {
                 username:phone
           })
           .then(res => {
-            this.isPhoneErr = false
+            if(res.data.code === 1){
+                this.isPhoneErr = true
+                this.phoneErr = res.data.message
+            }
           })
       } else if (phone.trim() === "") {
           this.isPhoneErr = false
@@ -229,6 +259,7 @@ export default {
         this.isPwdErr = false
     },
     register () {
+        this.validatePhone(this.phone)
         let res = this.isCheck && this.imgValicode && this.phone && this.password && this.valicode
         let valid = !this.isPhoneErr && !this.isPwdErr && !this.isImgValicodeErr && !this.isPhoneErr
         if (res) {
@@ -254,7 +285,30 @@ export default {
             }
         }
     },
-    login() {}
+    login () {
+      if (this.phoneNum.trim() === "") {
+        this.isPhoneNumErr = true
+      } else if (this.pwd.trim() === "") {
+        this.isPasswordErr = true
+      } else {
+          this.$axios
+          .post("/login", {
+                username:this.phoneNum,
+                password: this.pwd
+          })
+          .then(res => {
+            if(res.data.code === 0) {
+              this.username = this.tool.getPhone(res.data.data.username)
+              this.isLogin = true
+              localStorage.setItem('token', res.data.token);
+              localStorage.setItem('token_exp', new Date().getTime()+60*60*1000);
+            } else if(res.data.code === 1) {
+                this.isPasswordErr = true
+                this.passwordErr = res.data.message
+            }
+          })
+      }
+    }
   }
 }
 </script>
