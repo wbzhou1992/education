@@ -36,7 +36,8 @@
             <span class="text">验证码</span>
             <input v-model="imgValicode" @blur="validateImgCode($event.target.value)" placeholder="图形验证码" :disabled="isPhoneErr">
             <a class="validimg">
-              <span class="imgcode" v-html="imgCodeDom" @click="refreshImgCode"></span>
+              <!-- <img class="imgcode" :src="src" @click="refreshImgCode"> -->
+              <span v-html="imgCodeDom" @click="refreshImgCode"></span>
             </a>
           </div>
           <div v-show="isImgValicodeErr" class="err-box">
@@ -84,7 +85,7 @@
         <div class="box-cont">
           <div class="box">
             <span class="text">密码</span>
-            <input v-model="pwd" placeholder="输入密码">
+            <input v-model="pwd" type="password" placeholder="输入密码">
           </div>
           <div v-show="isPasswordErr" class="err-box">
             <i class="err-icon"></i>
@@ -102,6 +103,7 @@
     <div class="success">
       <p>您当前登陆的账户，{{username}}</p>
       <a href="">发现课程</a>
+      <p @click="signout">安全退出</p>
     </div>
   </div>
   </div>
@@ -141,7 +143,8 @@ export default {
       countDown: '112s',
       isCodeAgain: false,
       username: '',
-      isLogin: false
+      isLogin: false,
+      src: ''
     };
   },
   created () {
@@ -169,6 +172,9 @@ export default {
       this.isCheck = !this.isCheck
     },
     refreshImgCode () {
+        // let t = Math.random().toFixed(12)
+        // let src = '/register/captcha.png?t=' + t
+        // this.src = src
         this.$axios
         .get("/register/authcode",{
             t:Math.random()
@@ -300,14 +306,33 @@ export default {
             if(res.data.code === 0) {
               this.username = this.tool.getPhone(res.data.data.username)
               this.isLogin = true
-              localStorage.setItem('token', res.data.token);
-              localStorage.setItem('token_exp', new Date().getTime()+60*60*1000);
+              localStorage.setItem('token', res.data.token)
+              localStorage.setItem('token_exp', new Date().getTime()+60*60*1000)
+          
+              this.$store.dispatch('setUser',{
+                username:res.data.data.username,
+                image:res.data.data.image
+              })
             } else if(res.data.code === 1) {
                 this.isPasswordErr = true
                 this.passwordErr = res.data.message
             }
           })
       }
+    },
+    signout () {
+      localStorage.removeItem('token')
+      localStorage.removeItem('token_exp')
+      this.$axios
+          .post("/signout", {
+                username:this.username
+          })
+          .then(res => {
+            if(res.data.code === 0) {
+              location.reload()
+            } else if(res.data.code === 1) {
+            }
+          })
     }
   }
 }

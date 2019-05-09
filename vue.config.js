@@ -1,30 +1,17 @@
+const proxy = {}
 
-const proxy = {
-    '/register':{
-        changeOrigin: true,
-        target: 'http://localhost:3000',
-        secure: false,
-        pathRewrite:{
-            '^/register':'/api/register'
-        }
-    },
-    '/login':{
-      changeOrigin: true,
-        target: 'http://localhost:3000',
-        secure: false,
-        pathRewrite:{
-            '^/login':'/api/login'
-        }
-    },
-    '/info':{
-      changeOrigin: true,
-        target: 'http://localhost:3000',
-        secure: false,
-        pathRewrite:{
-            '^/info':'/api/info'
-        }
-    }
-}
+const arrProxy = ['/register', '/login', '/info','/signout']
+
+arrProxy.forEach((item, i) => {
+  proxy[item] = {
+    changeOrigin: true,
+    target: 'http://localhost:3000',
+    secure: false,
+    pathRewrite: {}
+  }
+  proxy[item].pathRewrite[item] = '/api' + item
+})
+
 module.exports = {
   assetsDir: 'static',
   chainWebpack: config => {
