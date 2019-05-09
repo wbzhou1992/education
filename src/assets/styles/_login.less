@@ -28,6 +28,7 @@
     .agree{
         font-size: 12px;
         margin-bottom: 36px;
+        margin-top: 16px;
         .checkstatus{
             float: left;
             margin-right: 10px;
@@ -65,19 +66,21 @@
         background: #77b716;
         margin-top: 40px;
     }
+    .box-cont{
+        margin-bottom: 6px;
+        height: 50px;
+    }
     .box{
         line-height: 35px;
         text-align: left;
         width: 100%;
         font-size: 18px;
-        margin-bottom: 20px;
-         border-bottom: 1px solid #dfdfdf;
-         color: #000;
-         position: relative;
+        border-bottom: 1px solid #dfdfdf;
+        color: #000;
+        position: relative;
         input{
             width: 210px;
             padding: 10px 0 10px 20px;
-           
         }
         .text{
             height: 35px;
@@ -94,6 +97,30 @@
             height:0;
         }
     }
+    .err-box{
+        text-align: left;
+        animation: move .2s linear 2;
+        -webkit-animation-fill-mode:forwards;
+        .err-icon{
+            display: inline-block;
+            height: 14px;
+            width: 14px;
+            background: url(../images/error.png) no-repeat;
+            background-size: contain;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+        .err{
+            color: #ff6803;
+            font-size: 12px;
+        }
+    }
+    
+    .validcode{
+        position: relative;
+        left: 0;
+        animation: move1 .4s linear 1;
+    }
     .open-eyes{
       width: 60px;
       height: 40px;
@@ -108,12 +135,48 @@
       }
     }
     .validimg{
-        img{
-        display:inline-block;
-        height: 40px; 
-        position: absolute;
-        right: 0;
-        bottom: 0;
+        font-size: 14px;
+        line-height: 44px;
+        >span{
+            display:inline-block;
+            height: 40px; 
+            position: absolute;
+            right: 0;
+            bottom: 0;
         }
+        .count{
+            color: #999;
+        }
+        .again{
+            color: #53a0e3;
+        }
+    }
+}
+@keyframes move1{
+    0%{
+        left: 350px;
+    }
+    25%{
+        left: 250px;
+    }
+    50%{
+        left: 175px;
+    }
+    75%{
+        left: 75px;
+    }
+    100%{
+        left: 0;
+    }
+}
+@keyframes move{
+    0%{
+        margin-left: -2px;
+    }
+    100%,33%{
+        margin-left: 0;
+    }
+    66%{
+        margin-left: 2px;
     }
 }

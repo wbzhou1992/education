@@ -62,6 +62,7 @@ export default {
 <style lang="less">
 .hello{
     height: 420px;
+    min-width: 1140px;
     position: relative;
     top: 0;
 }
