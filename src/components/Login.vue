@@ -34,7 +34,7 @@
         <div class="box-cont" v-if="isImgValicodeShow">
           <div class="box">
             <span class="text">验证码</span>
-            <input v-model="imgValicode" @blur="validateImgCode($event.target.value)" placeholder="图形验证码" :disabled="isPhoneErr">
+            <input v-model="imgValicode" @input="validateImgCode($event.target.value)" @blur="validateImgCodeBlur($event.target.value)" placeholder="图形验证码" :disabled="isPhoneErr">
             <a class="validimg">
               <!-- <img class="imgcode" :src="src" @click="refreshImgCode"> -->
               <span v-html="imgCodeDom" @click="refreshImgCode"></span>
@@ -54,7 +54,7 @@
               <span class="again" v-else @click="getCodeAgain">重新获取</span>
             </a>
           </div>
-          <div v-show="isImgValicodeErr" class="err-box">
+          <div v-show="isValicodeErr" class="err-box">
             <i class="err-icon"></i>
             <span class="err">{{codeErr}}</span>
           </div>
@@ -133,6 +133,7 @@ export default {
       isPhoneErr: false,
       isPwdErr: false,
       isImgValicodeErr: false,
+      isValicodeErr: false,
       isPhoneErr: false,
       isLoginErr: false,
       isPhoneNumErr: false,
@@ -144,7 +145,8 @@ export default {
       isCodeAgain: false,
       username: '',
       isLogin: false,
-      src: ''
+      src: '',
+      timer:null
     };
   },
   created () {
@@ -198,10 +200,12 @@ export default {
         this.password = ""
         this.valicode = ""
         this.imgValicode = ""
+        this.valicode = ""
         this.isPhoneErr = false
         this.isImgValicodeErr = ""
-        this.isPhoneNumErr = false,
-        this.isPasswordErr = false,
+        this.isValicodeErr = false
+        this.isPhoneNumErr = false
+        this.isPasswordErr = false
         this.pwd = ""
         this.phoneNum = ""
       } else {
@@ -238,13 +242,7 @@ export default {
       let reg = /^1[0-9]{10}$/
       let authcode = val
       let captcha = this.tool.cookie.get('captcha')
-      if (authcode.trim()!=="" && authcode.length !==4) {
-        this.isImgValicodeErr = true
-      } else if(authcode.trim() === ""){
-        this.isImgValicodeErr = false
-      } else if(authcode!==captcha){
-        this.isImgValicodeErr = true
-      }else{
+      if(authcode.length === 4){
         this.$axios
           .post("/register/isAuthcodeValid", {
             authcode: authcode
@@ -253,7 +251,31 @@ export default {
             this.isImgValicodeShow = false
             this.isValidcodeShow = true
             this.isImgValicodeErr = false
+            this.startCount(res.data.time)
           })
+      }
+    },
+    startCount (time) {
+      this.timer = setInterval(()=>{
+        this.countDown = String(time--)+'s'
+        if(time==0){
+          this.isCodeAgain = true
+          clearInterval(this.timer)
+        }
+      },1000)
+    },
+    validateImgCodeBlur (val) {
+      let reg = /^1[0-9]{10}$/
+      let authcode = val
+      let captcha = this.tool.cookie.get('captcha')
+      if (authcode.trim()!=="" && authcode.length !==4) {
+        this.isImgValicodeErr = true
+      } else if(authcode.trim() === ""){
+        this.isImgValicodeErr = false
+      } else if(authcode!==captcha){
+        this.isImgValicodeErr = true
+      } else {
+        this.isImgValicodeErr = false
       }
     },
     validateCode (val) {
@@ -265,10 +287,17 @@ export default {
         this.isPwdErr = false
     },
     register () {
-        this.validatePhone(this.phone)
         let res = this.isCheck && this.imgValicode && this.phone && this.password && this.valicode
         let valid = !this.isPhoneErr && !this.isPwdErr && !this.isImgValicodeErr && !this.isPhoneErr
+        if(!this.valicode){
+          this.isValicodeErr = true
+        }
+        if(!this.check){
+          this.isValicodeErr = true
+          this.codeErr = "请阅读并勾选协议"
+        }
         if (res) {
+            this.validatePhone(this.phone)
             this.$axios
             .post("/register", {
                 authcode: this.imgValicode,
@@ -335,6 +364,9 @@ export default {
             }
           })
     }
+  },
+  beforeDestory () {
+    clearInterval(this.timer)
   }
 }
 </script>
