@@ -9,7 +9,7 @@
         <li>直播</li>
         <router-link to="/about" tag="li">关于我们</router-link>
     </ul>
-    <ul class="login" v-if="!isLogin">
+    <ul class="login" v-if="!username">
         <li>登录</li>
         <li>注册</li>
     </ul>
@@ -23,30 +23,31 @@
 
 <script>
 import login from '@/components/Login.vue'
+import {mapState} from 'vuex'
 export default {
   name: 'vheader',
   data () {
     return {
-      isLogin: false,
-      username: this.$store.state.username,
-      image: this.$store.state.image
+      isLogin: false
     }
   },
   components: {
     login
   },
-  created () {
-    // this.user = this.tool.cookie.get('user')
-    // this.image = this.tool.cookie.get('image')
-    this.user = this.$store.state.username
-    this.image = this.$store.state.image
-    if(this.user){
-      this.isLogin = true
-      this.username = this.tool.getPhone(this.user)
-    }else{
-      this.isLogin = false
-    }
-  } 
+  // created () {
+  //   let user = this.tool.cookie.get('user')
+  //   let image = this.tool.cookie.get('image')
+  //   if(user){
+  //     this.isLogin = true
+  //     this.user = this.tool.getPhone(user)
+  //     this.img = image
+  //   }else{
+  //     this.isLogin = false
+  //   }
+  // },
+  computed: {
+      ...mapState(['username','image'])
+  }
 }
 </script>
 <style lang="less">

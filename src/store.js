@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import tool from './assets/scripts/tool.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    username: '',
-    image: ''
+    username:tool.cookie.get('user'),
+    image: tool.cookie.get('image')
   },
   getters: {
     

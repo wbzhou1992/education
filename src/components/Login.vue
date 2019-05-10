@@ -313,6 +313,7 @@ export default {
                 username:res.data.data.username,
                 image:res.data.data.image
               })
+              console.log(this.$store.state.username)
             } else if(res.data.code === 1) {
                 this.isPasswordErr = true
                 this.passwordErr = res.data.message
