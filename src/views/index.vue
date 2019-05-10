@@ -1,18 +1,11 @@
 <template>
   <div id="app">
-    <vHeader></vHeader>
     <router-view/>
   </div>
 </template>
 <script>
-import vHeader from './views/Header.vue'
 
-export default {
-  name: 'home',
-  components: {
-    vHeader
-  }
-}
+
 </script>
 <style>
 #app {
@@ -35,6 +28,4 @@ export default {
   color: #42b983;
 }
 </style>
-<style lang="less">
-  @import "./assets/styles/main.less";
-</style>
+

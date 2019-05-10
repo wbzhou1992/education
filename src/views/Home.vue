@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <vHeader></vHeader>
     <login class="log"></login>
     <Swiper class="cf"></Swiper>
   </div>
@@ -9,14 +8,12 @@
 <script>
 // @ is an alias to /src
 import Swiper from '@/components/Swiper.vue'
-import vHeader from './Header.vue'
-import login from '@/components/Login.vue'
+import login from '@/components/HomeLogin.vue'
 
 export default {
   name: 'home',
   components: {
     Swiper,
-    vHeader,
     login
   }
 }
@@ -25,10 +22,10 @@ export default {
 .home{
   position: relative;
 }
-  .log{
-    position: absolute;
-    right: 36px;
-    top: 96px;
-    z-index: 100;
-  }
+.log{
+  position: absolute;
+  right: 36px;
+  top: 40px;
+  z-index: 100;
+}
 </style>
