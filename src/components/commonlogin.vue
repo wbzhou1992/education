@@ -2,8 +2,8 @@
   <div class="login">
       <div class="box-cont">
         <div class="box">
-          <span class="text">邮箱</span>
-          <input v-model="phone" type="email" placeholder="注册邮箱">
+          <span class="text">手机号</span>
+          <input v-model="phone" @blur="validatePhone($event.target.value)" placeholder="注册手机号">
         </div>
         <div v-show="isPhoneErr" class="err-box">
           <i class="err-icon"></i>
@@ -70,7 +70,7 @@
           <a href>《注册服务协议》</a>
         </p>
       </div>
-      <div :class="isValidcodeShow ? 'register' :'register dis'" @click="register">免费注册</div>
+      <div class="register" @click="register">免费注册</div>
   </div>
 </template>
 
@@ -87,7 +87,7 @@ export default {
       isCheck: false,
       isValidcodeShow: false,
       isImgValicodeShow: true,
-      phoneErr: "邮箱格式错误",
+      phoneErr: "手机号格式错误",
       imgCodeErr: "验证码错误",
       codeErr: "验证码错误",
       pwdErr: "密码输入错误",
@@ -131,67 +131,64 @@ export default {
           ? "open-eyes close"
           : "open-eyes";
       if (ele.target.className.indexOf("close") == -1) {
-        ele.target.previousElementSibling.setAttribute("type", "text")
+        ele.target.previousElementSibling.setAttribute("type", "text");
       } else {
-        ele.target.previousElementSibling.setAttribute("type", "password")
+        ele.target.previousElementSibling.setAttribute("type", "password");
       }
     },
     validatePhone(val) {
-      let reg = /^1[0-9]{10}$/
-      let phone = val
+      let reg = /^1[0-9]{10}$/;
+      let phone = val;
       if (phone.trim() !== "" && reg.test(Number(phone))) {
-        this.isPhoneErr = false
+        this.isPhoneErr = false;
         this.$axios
           .post("/register/isUserNameValid", {
             username: phone
           })
           .then(res => {
             if (res.data.code === 1) {
-              this.isPhoneErr = true
-              this.phoneErr = res.data.message
+              this.isPhoneErr = true;
+              this.phoneErr = res.data.message;
             }
           });
       } else if (phone.trim() === "") {
-        this.isPhoneErr = false
+        this.isPhoneErr = false;
       } else {
-        this.isPhoneErr = true
+        this.isPhoneErr = true;
       }
     },
     validatePwd(val) {
       this.isPwdErr = false;
     },
     validateImgCode(val) {
-      let reg = /^1[0-9]{10}$/
+      let reg = /^1[0-9]{10}$/;
       let authcode = val;
-      let captcha = this.tool.cookie.get("captcha")
+      let captcha = this.tool.cookie.get("captcha");
       if (authcode.length === 4) {
         this.$axios
           .post("/register/isAuthcodeValid", {
             authcode: authcode
           })
           .then(res => {
-            if(res.data.code===0){
-              this.isImgValicodeShow = false
-              this.isValidcodeShow = true
-              this.isImgValicodeErr = false
-              this.sendEmail()
-              this.startCount(res.data.time)
-            }
-          })
+            this.isImgValicodeShow = false;
+            this.isValidcodeShow = true;
+            this.isImgValicodeErr = false;
+            this.sendSms();
+          });
       }
     },
     validateImgCodeBlur(val) {
-      let reg = /^1[0-9]{10}$/
-      let authcode = val
-      let captcha = this.tool.cookie.get("captcha")
+      let reg = /^1[0-9]{10}$/;
+      let authcode = val;
+      let captcha = this.tool.cookie.get("captcha");
       if (authcode.trim() !== "" && authcode.length !== 4) {
-        this.isImgValicodeErr = true
+        this.isImgValicodeErr = true;
       } else if (authcode.trim() === "") {
-        this.isImgValicodeErr = false
+        this.isImgValicodeErr = false;
       } else if (authcode !== captcha) {
-        this.isImgValicodeErr = true
+        this.isImgValicodeErr = true;
       } else {
-        this.isImgValicodeErr = false
+        this.isImgValicodeErr = false;
       }
     },
     validateCode(val) {
@@ -205,34 +202,33 @@ export default {
           username: this.phone
         })
         .then(res => {
-          this.imgCodeDom = res.data.img
+          this.imgCodeDom = res.data.img;
         });
     },
     check() {
-      this.isCheck = !this.isCheck
+      this.isCheck = !this.isCheck;
     },
     register() {
-      if(!this.isValidcodeShow) return
       let res =
         this.isCheck &&
         this.imgValicode &&
         this.phone &&
         this.password &&
-        this.valicode
+        this.valicode;
       let valid =
         !this.isPhoneErr &&
         !this.isPwdErr &&
         !this.isImgValicodeErr &&
         !this.isPhoneErr;
       if (!this.valicode) {
-        this.isValicodeErr = true
+        this.isValicodeErr = true;
       }
       if (!this.check) {
-        this.isValicodeErr = true
-        this.codeErr = "请阅读并勾选协议"
+        this.isValicodeErr = true;
+        this.codeErr = "请阅读并勾选协议";
       }
       if (res) {
-        // this.validatePhone(this.phone);
+        this.validatePhone(this.phone);
         this.$axios
           .post("/register", {
             authcode: this.imgValicode,
@@ -241,28 +237,17 @@ export default {
             smscode: this.valicode
           })
           .then(res => {
-            console.log(res.data)
-            if(res.data.code === 0){
-              localStorage.setItem("token", res.data.token)
-              localStorage.setItem(
-                "token_exp",
-                new Date().getTime() + 60 * 60 * 1000
-              )
-              this.$store.dispatch("setUser", {
-                username: res.data.data.username,
-                image: res.data.data.image
-              })
-            }
-          })
+            console.log(res.data);
+          });
       } else {
         if (!this.phone) {
-          this.isPhoneErr = true
+          this.isPhoneErr = true;
         }
         if (!this.imgValicode) {
-          this.isImgValicodeErr = true
+          this.isImgValicodeErr = true;
         }
         if (!this.password) {
-          this.isPwdErr = true
+          this.isPwdErr = true;
         }
       }
     },
@@ -274,20 +259,6 @@ export default {
         })
         .then(res => {
           this.startCount(res.data.time)
-        })
-    },
-    sendEmail () {
-      this.$axios
-        .post("/register/sendemail", {
-          authcode: this.authcode,
-          username: this.phone
-        })
-        .then(res => {
-          if(res.data.code===0){
-            
-          } else {
-            this.isValicodeErr = true
-          }
         })
     },
     startCount (time) {

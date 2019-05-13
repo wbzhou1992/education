@@ -21,6 +21,7 @@
         </div>
       </div>
       <div class="log-rightnow" @click="login">立即登录</div>
+      
   </div>
 </template>
 
@@ -52,7 +53,6 @@ export default {
           .then(res => {
             if (res.data.code === 0) {
               this.username = this.tool.getPhone(res.data.data.username);
-              this.isLogin = true;
               localStorage.setItem("token", res.data.token)
               localStorage.setItem(
                 "token_exp",

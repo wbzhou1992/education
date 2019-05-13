@@ -8,7 +8,7 @@
         <router-link to="/home" tag="li">登录</router-link>
         <router-link to="/home" tag="li">注册</router-link>
     </ul>
-    <ul class="login" v-else>
+    <ul class="login-not" v-else>
         <li>{{username}}</li>
         <li><img :src="image"></li>
     </ul>

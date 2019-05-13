@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="login-box" v-if="!isLogin">
+    <div class="login-box" v-if="!username">
       <ul class="tab cf">
         <li
           v-for="(item,index) in tabs"
@@ -21,7 +21,8 @@
       欢迎来到学习网
     </p>
     <div class="success">
-      <p>您当前登陆的账户，{{username}}</p>
+      <p>您当前登陆的账户:</p>
+      <p>{{username}}</p>
       <a href="">发现课程</a>
       <p @click="signout">安全退出</p>
     </div>
@@ -32,13 +33,14 @@
 <script>
 import login from './Login.vue'
 import register from './Register.vue'
+import {mapState} from 'vuex'
 export default {
   name: "homelogin",
   data() {
     return {
       tabs: [{ name: "免费注册" }, { name: "立即登录" }],
       current: 0,
-      username: '',
+      user: '',
       isLogin: false
     }
   },
@@ -51,7 +53,7 @@ export default {
       localStorage.removeItem('token_exp')
       this.$axios
           .post("/signout", {
-                username:this.username
+                username:this.user
           })
           .then(res => {
             if(res.data.code === 0) {
@@ -60,6 +62,9 @@ export default {
             }
           })
     }
+  },
+  computed: {
+      ...mapState(['username'])
   },
   components:{
     login,
