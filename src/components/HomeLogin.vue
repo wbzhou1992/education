@@ -10,10 +10,10 @@
         >{{item.name}}</li>
       </ul>
       <div v-if="current===0" class="login-tab">
-        <login></login>
+       <register></register>
       </div>
       <div v-if="current===1" class="register-tab">
-       <register></register>
+       <login></login>
       </div>
   </div>
   <div class="success-box" v-else>
@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       tabs: [{ name: "免费注册" }, { name: "立即登录" }],
-      current: 0,
+      current: 1,
       user: '',
       isLogin: false
     }

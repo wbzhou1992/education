@@ -198,7 +198,7 @@ export default {
     },
     getCodeAgain() {
       this.$axios
-        .get("/register/authcode", {
+        .get("/api/register/authcode", {
           username: this.phone
         })
         .then(res => {

@@ -25,6 +25,106 @@
     .login-tab,.register-tab{
         margin:16px 30px;
     }
+    .register-tab{
+        .find-pwd{
+            margin-top: 10px;            
+            >span{
+                display: inline-block;
+            }
+            span:nth-child(1){
+                float: left;
+            }
+            span:nth-child(2){
+                color: #53a0e3;
+                float: right;
+                font-size: 14px;
+            }
+        }
+        .resetpwd-popup{
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            z-index: 2;
+            background: rgba(0,0,0,0.5);
+            .popup-body{
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 514px;
+                height: 380px;
+                margin-top: -180px;
+                margin-left: -257px;
+                z-index: 3;
+                background: #fff;
+                border-radius: 3px;
+                .close{
+                    position: relative;
+                    top: 10px;
+                    left: 480px;
+                    width: 22px;
+                    height: 22px;
+                    background: url(../images/alertclose.png) no-repeat;
+                }
+                .logo{
+                    position: absolute;
+                    top: -40px;
+                    width: 95px;
+                    height: 95px;
+                    background: url(../images/logo-pop.png) no-repeat;
+                    background-size: contain;
+                    left: calc(50% - 47px);
+                }
+                h1{
+                    color: #000;
+                    font-size: 30px;
+                    margin-top: 60px;
+                    margin-bottom: 20px;
+                }
+                .box{
+                    width: 400px;
+                    margin: 20px auto;
+                    >span{
+                        width: 80px;
+                    }
+                }
+                .box-cont{
+                    .box{
+                        margin-bottom: 0;
+                    }
+                }
+                .eml{
+                    border-bottom: none;
+                    span{
+                        margin-right: 20px;
+                    }
+                }
+                .register{
+                    width: 400px;
+                    margin: 20px auto 0;
+                }
+                .err-box{
+                    padding-left: 56px;
+                }
+            }
+        }
+        .resetpwd-popup-success{
+            .popup-body{
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 514px;
+                height: 200px;
+                margin-top: -100px;
+                margin-left: -257px;
+                .box{
+                    text-align: center;
+                }
+            }
+        }
+    }
     .agree{
         font-size: 12px;
         margin-bottom: 30px;
@@ -88,7 +188,8 @@
         .text{
             height: 35px;
             vertical-align: middle;
-            text-align:justify;            
+            text-align:justify;
+            // text-align-last:justify;
             display: inline-block;
             width: 60px;
         }

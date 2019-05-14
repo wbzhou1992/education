@@ -1,6 +1,6 @@
 const proxy = {}
 
-const arrProxy = ['/register', '/login', '/info','/signout']
+const arrProxy = ['/register', '/login', '/info','/signout','/resetpwd','/isCodeValid','/']
 
 arrProxy.forEach((item, i) => {
   proxy[item] = {
