@@ -156,10 +156,13 @@ export default {
       // let src = '/register/captcha.png?t=' + t
       // this.src = src
       this.$axios
-        .get("/register/authcode", {
+        .get("/auth/captcha", {
           t: Math.random()
         })
         .then(res => {
+          if(res.data.code === 0){
+
+          }
           this.imgCodeDom = res.data.img
         })
     },
@@ -168,7 +171,7 @@ export default {
       if (phone.trim() !== "" && phone.indexOf("@") !== -1) {
         this.isPhoneErr = false;
         this.$axios
-          .post("/register/isUserNameValid", {
+          .post("/register/isUsernameValid", {
             username: phone
           })
           .then(res => {
@@ -196,7 +199,7 @@ export default {
     },
     getCode() {
       this.$axios
-        .post("/register/sendemail", {
+        .post("/auth/sendEmailAuthcode", {
           username: this.resetEmail
         })
         .then(res => {
@@ -216,8 +219,8 @@ export default {
         this.isImgValicodeErr = true
       } else {
         this.$axios
-          .post("/register/isAuthcodeValid", {
-            authcode: authcode
+          .post("/register/isCaptchaValid", {
+            captcha: authcode
           })
           .then(res => {
             if (res.data.code === 0) {
@@ -246,8 +249,8 @@ export default {
     },
     isCodeValidM() {
       this.$axios
-        .post("/isCodeValid", {
-          smscode: this.resetCode
+        .post("/auth/isEmailAuthcodeValid", {
+          authcode: this.resetCode
         })
         .then(res => {
           if (res.data.code === 0) {

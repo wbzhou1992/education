@@ -1,25 +1,25 @@
-<template>
-  <div class="hello">
-    <vbase v-model="name"></vbase>
+ <template>
+  <div>
+    <aa class="abc" v-model="initvalue"></aa>  
+      {{'外面的值：' + initvalue}} 
   </div>
 </template>
 
 <script>
-import vbase from './base.vue'
-export default {
-  name: "demo",
-  data() {
-    return {
-      name:123
+import aa from './vbase.vue'
+  export default {
+    data () {
+      return {
+        initvalue: '1212'
       }
     },
-
+    methods: {
+      // get (num) {
+      //   this.initvalue = num
+      // }
+    },
     components:{
-        vbase
+      aa
     }
-}
+  }
 </script>
-
-<style lang="less">
-
-</style>

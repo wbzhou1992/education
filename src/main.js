@@ -9,19 +9,19 @@ import axios from 'axios'
 import tool from './assets/scripts/tool.js'
 Vue.config.productionTip = false;
 //设置axios为form-data
-axios.defaults.transformRequest = [function (data) {
-    let ret = ''
-    for (let it in data) {
-      ret += `${encodeURIComponent(it)}=${encodeURIComponent(data[it])}&`
-    }
-    return ret.slice(0, ret.length - 1);
+// axios.defaults.transformRequest = [function (data) {
+//     let ret = ''
+//     for (let it in data) {
+//       ret += `${encodeURIComponent(it)}=${encodeURIComponent(data[it])}&`
+//     }
+//     return ret.slice(0, ret.length - 1);
 
-}]
-axios.interceptors.request.use(config => {
-  const token = localStorage.getItem('token');
-  config.headers.common['Authorization'] = 'Bearer ' + token;
-  return config;
-})
+// }]
+// axios.interceptors.request.use(config => {
+//   const token = localStorage.getItem('token');
+//   config.headers.common['Authorization'] = 'Bearer ' + token;
+//   return config;
+// })
 Vue.prototype.$axios = axios;
 Vue.prototype.tool = tool;
 Vue.use(vueSwiper);

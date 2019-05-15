@@ -1,65 +1,57 @@
 <template>
   <div class="login">
-      <div class="box-cont">
-        <div class="box">
-          <span class="text">邮箱</span>
-          <input v-model="phone" type="email" placeholder="注册邮箱" @blur="validateEmail($event.target.value)">
-        </div>
-        <div v-show="isPhoneErr" class="err-box">
-          <i class="err-icon"></i>
-          <span class="err">{{phoneErr}}</span>
-        </div>
-      </div>
-      <div class="box-cont">
-        <div class="box">
-          <span class="text">密码</span>
-          <input
-            v-model="password"
+      <InputBox 
+            v-model.trim="phone" 
+            placeholder="注册邮箱" 
+            label="邮箱" 
+            type="text"
+            :errorMsg="phoneErr" 
+            :errorShow="isPhoneErr" 
+            @focus="isPhoneErr=false"
+            @blur="validateEmail">
+      </InputBox>
+      <InputBox 
+            v-model.trim="password" 
+            placeholder="设置登录密码" 
+            label="密码" 
             type="password"
-            @blur="validatePwd($event.target.value)"
-            placeholder="设置登录密码"
-          >
-          <i class="open-eyes close" @click="eyesSwitch($event)"></i>
-        </div>
-        <div v-show="isPwdErr" class="err-box">
-          <i class="err-icon"></i>
-          <span class="err">{{pwdErr}}</span>
-        </div>
-      </div>
-      <div class="box-cont" v-if="isImgValicodeShow">
-        <div class="box">
-          <span class="text">验证码</span>
-          <input
-            v-model="imgValicode"
-            @input="validateImgCode($event.target.value)"
-            @blur="validateImgCodeBlur($event.target.value)"
-            placeholder="图形验证码"
+            :errorMsg="pwdErr" 
+            :errorShow="isPwdErr" 
+            @focus="isPwdErr=false"
+            @blur="validatePwd">
+            <i class="open-eyes close" @click="eyesSwitch($event)"></i>
+      </InputBox>
+      <InputBox 
+            v-if="isImgValicodeShow"
+            v-model.trim="imgValicode" 
+            placeholder="图形验证码" 
+            label="验证码" 
+            type="text"
             :disabled="isPhoneErr"
-          >
-          <a class="validimg">
-            <!-- <img class="imgcode" :src="src" @click="refreshImgCode"> -->
-            <span v-html="imgCodeDom" @click="refreshImgCode"></span>
+            :errorMsg="imgCodeErr" 
+            :errorShow="isImgValicodeErr" 
+            @focus="isImgValicodeErr=false"
+            @blur="validateImgCodeBlur"
+            @input="validateImgCode">
+            <a class="validimg">
+              <span v-html="imgCodeDom" @click="refreshImgCode"></span>
           </a>
-        </div>
-        <div v-show="isImgValicodeErr" class="err-box">
-          <i class="err-icon"></i>
-          <span class="err">{{imgCodeErr}}</span>
-        </div>
-      </div>
-      <div class="box-cont validcode" v-if="isValidcodeShow">
-        <div class="box">
-          <span class="text">验证码</span>
-          <input v-model="valicode" @blur="validateCode($event.target.value)" placeholder="短信验证码">
-          <a class="validimg">
-            <span class="count" v-if="!isCodeAgain">{{countDown}}</span>
-            <span class="again" v-else @click="getCodeAgain">重新获取</span>
-          </a>
-        </div>
-        <div v-show="isValicodeErr" class="err-box">
-          <i class="err-icon"></i>
-          <span class="err">{{codeErr}}</span>
-        </div>
-      </div>
+      </InputBox>
+      <InputBox class="validcode"
+            v-if="isValidcodeShow"
+            v-model.trim="valicode" 
+            placeholder="邮箱验证码" 
+            label="验证码" 
+            type="text"
+            :errorMsg="codeErr" 
+            :errorShow="isValicodeErr" 
+            @focus="isValicodeErr=false">
+            <a class="validimg">
+              <span class="again" v-if="firstSend" @click="sendEmail">发送验证码</span>
+              <span class="count" v-else-if="countDown>0">{{countDown}}</span>
+              <span class="again" v-else @click="sendEmail">重新获取</span>
+            </a>
+      </InputBox>
       <div class="agree cf">
         <a class="checkstatus" @click="check">
           <span v-if="isCheck" class="check"></span>
@@ -75,6 +67,7 @@
 </template>
 
 <script>
+import InputBox from './InputBox.vue'
 export default {
   name: "home",
   data() {
@@ -83,22 +76,20 @@ export default {
       password: "",
       valicode: "",
       imgValicode: "",
-      valicode: "",
       isCheck: false,
       isValidcodeShow: false,
       isImgValicodeShow: true,
+      isPhoneErr: false,
       phoneErr: "邮箱格式错误",
-      imgCodeErr: "验证码错误",
-      codeErr: "验证码错误",
-      pwdErr: "密码输入错误",
-      isPhoneErr: false,
-      isPwdErr: false,
       isImgValicodeErr: false,
+      imgCodeErr: "验证码错误",
       isValicodeErr: false,
-      isPhoneErr: false,
+      codeErr: "验证码错误",
+      isPwdErr: false,
+      pwdErr: "密码输入错误",
       imgCodeDom: "",
       countDown: "112s",
-      isCodeAgain: false,
+      firstSend: false,
       src: "",
       timer: null
     }
@@ -113,16 +104,21 @@ export default {
     }
   },
   methods: {
+    check() {
+      this.isCheck = !this.isCheck
+    },
     refreshImgCode () {
         // let t = Math.random().toFixed(12)
         // let src = '/register/captcha.png?t=' + t
         // this.src = src
         this.$axios
-        .get("/register/authcode",{
-            t:Math.random()
+        .get("/auth/captcha",{
+            t: Math.random()
         })
         .then(res => {
-            this.imgCodeDom = res.data.img
+          if(res.data.code == 0){
+              this.imgCodeDom = res.data.img
+          }
         })
     },
     eyesSwitch(ele) {
@@ -136,189 +132,129 @@ export default {
         ele.target.previousElementSibling.setAttribute("type", "password")
       }
     },
-    validateEmail(val) {
+    validateEmail (val) {
       let phone = val
-      if (phone.trim() !== "" && phone.indexOf('@')!==-1) {
+      if (!this.phone) {
+        this.isPhoneErr = true
+        this.phoneErr = "邮箱输入错误"
+      } else if (phone.indexOf('@')!==-1) {
         this.isPhoneErr = false
         this.$axios
-          .post("/register/isUserNameValid", {
+          .post("/register/isUsernameValid", {
             username: phone
           })
           .then(res => {
-            if (res.data.code === 1) {
+            if (res.data.code !== 0) {
               this.isPhoneErr = true
               this.phoneErr = res.data.message
             }
-          });
-      } else if (phone.trim() === "") {
-        this.isPhoneErr = false
-      } else {
-        this.isPhoneErr = true
-      }
-    },
-    validatePhone(val) {
-      let reg = /^1[0-9]{10}$/
-      let phone = val
-      if (phone.trim() !== "" && reg.test(Number(phone))) {
-        this.isPhoneErr = false
-        this.$axios
-          .post("/register/isUserNameValid", {
-            username: phone
           })
-          .then(res => {
-            if (res.data.code === 1) {
-              this.isPhoneErr = true
-              this.phoneErr = res.data.message
-            }
-          });
-      } else if (phone.trim() === "") {
-        this.isPhoneErr = false
-      } else {
-        this.isPhoneErr = true
-      }
+      } 
     },
     validatePwd(val) {
       this.isPwdErr = false;
     },
     validateImgCode(val) {
-      let reg = /^1[0-9]{10}$/
-      let authcode = val;
-      let captcha = this.tool.cookie.get("captcha")
-      if (authcode.length === 4) {
+      let captcha = val;
+      // let captcha = this.tool.cookie.get("captcha")
+      if(captcha.length !== 4){
+        this.isImgValicodeErr = true
+        this.imgCodeErr = "验证码错误"
+      } else {
         this.$axios
-          .post("/register/isAuthcodeValid", {
-            authcode: authcode
+          .post("/register/isCaptchaValid", {
+            captcha: captcha
           })
           .then(res => {
             if(res.data.code===0){
               this.isImgValicodeShow = false
               this.isValidcodeShow = true
+
               this.isImgValicodeErr = false
-              this.sendEmail()
-              this.startCount(res.data.time)
+            } else {
+              this.isImgValicodeErr = true
+              this.imgCodeErr = res.data.message
             }
           })
       }
     },
     validateImgCodeBlur(val) {
-      let reg = /^1[0-9]{10}$/
       let authcode = val
       let captcha = this.tool.cookie.get("captcha")
-      if (authcode.trim() !== "" && authcode.length !== 4) {
+      if (!authcode || authcode.length !== 4 || authcode !== captcha) {
         this.isImgValicodeErr = true
-      } else if (authcode.trim() === "") {
-        this.isImgValicodeErr = false
-      } else if (authcode !== captcha) {
-        this.isImgValicodeErr = true
+        this.imgCodeErr = "验证码错误"
       } else {
         this.isImgValicodeErr = false
       }
     },
-    validateCode(val) {
-      if (Number(val) !== 1) {
-        console.log("err");
-      }
-    },
-    getCodeAgain() {
-      this.$axios
-        .get("/register/authcode", {
-          username: this.phone
-        })
-        .then(res => {
-          this.imgCodeDom = res.data.img
-        });
-    },
-    check() {
-      this.isCheck = !this.isCheck
-    },
     register() {
-      if(!this.isValidcodeShow) return
-      let res =
-        this.isCheck &&
-        this.imgValicode &&
-        this.phone &&
-        this.password &&
-        this.valicode
-      let valid =
-        !this.isPhoneErr &&
-        !this.isPwdErr &&
-        !this.isImgValicodeErr &&
-        !this.isPhoneErr;
-      if (!this.valicode) {
-        this.isValicodeErr = true
-      }
+      if (!this.isValidcodeShow) return
       if (!this.check) {
         this.isValicodeErr = true
         this.codeErr = "请阅读并勾选协议"
-      }
-      if (res) {
-        // this.validatePhone(this.phone);
+      } else if (!this.phone) {
+        this.isPhoneErr = true
+        this.phoneErr = "请输入邮箱"
+      } else if (!this.valicode) {
+        this.isValicodeErr = true
+        this.codeErr = "请输入验证码"
+      } else if (!this.password) {
+        this.isPwdErr = true
+        this.pwdErr = "请输入密码"
+      } else {
         this.$axios
           .post("/register", {
-            authcode: this.imgValicode,
+            captcha: this.imgValicode,
             username: this.phone,
             password: this.password,
-            smscode: this.valicode
+            emailauthcode: this.valicode
           })
           .then(res => {
-            console.log(res.data)
             if(res.data.code === 0){
               localStorage.setItem("token", res.data.token)
-              localStorage.setItem(
-                "token_exp",
-                new Date().getTime() + 60 * 60 * 1000
-              )
+              localStorage.setItem("token_exp",new Date().getTime() + 60 * 60 * 1000)
               this.$store.dispatch("setUser", {
                 username: res.data.data.username,
                 image: res.data.data.image
               })
+            } else {
+              this.isValicodeErr = true
+              this.codeErr = res.data.message
             }
           })
-      } else {
-        if (!this.phone) {
-          this.isPhoneErr = true
-        }
-        if (!this.imgValicode) {
-          this.isImgValicodeErr = true
-        }
-        if (!this.password) {
-          this.isPwdErr = true
-        }
-      }
-    },
-    sendSms () {
-      this.$axios
-        .post("/register/sendSms", {
-          authcode: this.authcode,
-          username: this.phone
-        })
-        .then(res => {
-          this.startCount(res.data.time)
-        })
+      } 
     },
     sendEmail () {
-      this.$axios
-        .post("/register/sendemail", {
-          authcode: this.authcode,
+      if (!this.phone) {
+        this.isPhoneErr = true
+        this.phoneErr = "请输入邮箱"
+      } else {
+        this.$axios
+        .post("/auth/sendEmailAuthcode", {
           username: this.phone
         })
         .then(res => {
           if(res.data.code===0){
-            
+            this.startCount(res.data.time)
           } else {
             this.isValicodeErr = true
           }
         })
+      }
     },
     startCount (time) {
       this.timer = setInterval(()=>{
         this.countDown = String(time--)+'s'
         if(time==0){
-          this.isCodeAgain = true
+          this.firstSend = true
           clearInterval(this.timer)
         }
       },1000)
     }
+  },
+  components: {
+    InputBox
   },
   beforeDestory () {
     clearInterval(this.timer)

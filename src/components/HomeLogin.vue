@@ -53,12 +53,13 @@ export default {
       localStorage.removeItem('token_exp')
       this.$axios
           .post("/signout", {
-                username:this.user
+                username:this.user,
+                userimage: ''
           })
           .then(res => {
             if(res.data.code === 0) {
               location.reload()
-            } else if(res.data.code === 1) {
+            } else{
             }
           })
     }
