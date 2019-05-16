@@ -5,42 +5,32 @@
         <div class="logo"></div>
         <div class="close" @click="close"></div>
         <h1>找回密码</h1>
-        <div class="box-cont">
-          <div class="box">
-            <span class="text">邮箱</span>
-            <input
-              class="emial"
-              v-model="resetEmail"
-              type="text"
-              placeholder="输入找回密码的邮箱"
-              @blur="validateEmail($event.target.value)"
-            >
-          </div>
-          <div v-show="isPhoneErr" class="err-box">
-            <i class="err-icon"></i>
-            <span class="err">{{phoneErr}}</span>
-          </div>
-        </div>
-        <div class="box-cont">
-          <div class="box">
-            <span class="text">验证码</span>
-            <input
-              v-model="imgValicode"
-              @blur="validateImgCodeBlur($event.target.value)"
-              placeholder="图形验证码"
-              :disabled="isPhoneErr"
-            >
+        <InputBox 
+            v-model.trim="resetEmail" 
+            placeholder="输入找回密码的邮箱" 
+            label="邮箱" 
+            type="text"
+            :errorMsg="phoneErr" 
+            :errorShow="isPhoneErr" 
+            @focus="isPhoneErr=false"
+            @blur="validateEmail">
+        </InputBox>
+        <InputBox 
+            v-model.trim="captcha" 
+            placeholder="输入图形验证码" 
+            label="验证码" 
+            type="text"
+            :disabled="isPhoneErr"
+            :errorMsg="imgCodeErr" 
+            :errorShow="isImgValicodeErr" 
+            @focus="isImgValicodeErr=false"
+            @blur="validateImgCodeBlur">
             <a class="validimg">
               <!-- <img class="imgcode" :src="src" @click="refreshImgCode"> -->
               <span v-html="imgCodeDom" @click="refreshImgCode"></span>
             </a>
-          </div>
-          <div v-show="isImgValicodeErr" class="err-box">
-            <i class="err-icon"></i>
-            <span class="err">{{imgCodeErr}}</span>
-          </div>
-        </div>
-        <div class="register" @click="nextStepFirst">下一步</div>
+        </InputBox>
+        <div :class="isPhoneErr||!resetEmail || !captcha ? 'register dis':'register'" @click="nextStepFirst">下一步</div>
       </div>
     </div>
     <div class="resetpwd-popup" v-show="secondStep">
@@ -52,21 +42,21 @@
           <span class="text">邮箱</span>
           <span class="emial" type="text">{{resetEmail}}</span>
         </div>
-        <div class="box-cont">
-          <div class="box">
-            <span class="text">验证码</span>
-            <input class="code" v-model="resetCode" type="text" placeholder="验证码">
-            <a class="validimg">
+        <InputBox 
+            v-model.trim="resetCode" 
+            placeholder="输入邮箱验证码" 
+            label="验证码" 
+            type="text"
+            :errorMsg="resetCodeError" 
+            :errorShow="isResetCodeError" 
+            @focus="isResetCodeError=false"
+            @blur="validateImgCodeBlur">
+           <a class="validimg" href="javascript:void(0)">
               <span class="count" v-if="firstSend" @click="getCode">发送验证码</span>
-              <span class="count" v-if="!firstSend&&!isCodeAgain">{{countDown}}</span>
-              <span class="again" v-if="isCodeAgain" @click="getCode">重新获取</span>
+              <span class="count" v-else-if="waitTime>0">{{countDown}}</span>
+              <span class="again" v-else @click="getCode">重新获取</span>
             </a>
-          </div>
-          <div v-show="isResetError" class="err-box">
-            <i class="err-icon"></i>
-            <span class="err">{{resetErr}}</span>
-          </div>
-        </div>
+        </InputBox>
         <div class="register" @click="nextStepSecond">下一步</div>
       </div>
     </div>
@@ -81,25 +71,23 @@
         </div>
         <div class="box">
           <span class="text">密码</span>
-          <input class="emial" type="password" v-model="resetPwd" placeholder="输入找回密码的邮箱">
+          <input class="emial" type="password" v-model="resetPwd" placeholder="输入新密码">
         </div>
-        <div class="box-cont">
-          <div class="box">
-            <span class="text">确认密码</span>
-            <input class="code" type="password" v-model="resetPwdRe" placeholder="确认密码">
-          </div>
-          <div v-show="isResetErr" class="err-box">
-            <i class="err-icon"></i>
-            <span class="err">{{resetErr}}</span>
-          </div>
-        </div>
+         <InputBox 
+            v-model.trim="resetPwdRe" 
+            placeholder="确认新密码" 
+            label="确认密码" 
+            type="password"
+            :errorMsg="resetErr" 
+            :errorShow="isResetErr" 
+            @focus="isResetErr=false">
+        </InputBox>
         <div @click="reset" class="register">重置密码</div>
       </div>
     </div>
     <div class="resetpwd-popup resetpwd-popup-success" v-show="fourthStep">
       <div class="popup-body">
         <div class="logo"></div>
-        
         <h1>重置成功</h1>
         <div class="box eml">
           <span class="text">邮箱</span>
@@ -109,8 +97,9 @@
     </div>
   </div>
 </template>
-
 <script>
+import InputBox from './InputBox.vue'
+import API from '../../api/api.js'
 export default {
   name: "home",
   data() {
@@ -118,30 +107,28 @@ export default {
       firstStep: true,
       secondStep: false,
       thirdStep: false,
-      isImgValicodeErr: false,
+      fourthStep: false,
       imgCodeDom: "",
-      imgValicode: "",
-      isCodeValid: false,
-      isNextStep: false,
-      nextStep: false,
+      captcha: '',
       isPhoneErr: false,
-      firstSend: true,
-      hasSend: false,
-      countDown: "120s",
+      isImgValicodeErr: false,
+      isResetCodeError: false,
+      isResetErr: false,
       resetCode: "",
       resetEmail: "",
-      isResetError: false,
-      isResetErr: false,
+      imgCodeErr: "验证码错误",
+      phoneErr: "邮箱错误",
+      resetCodeError: "邮箱验证码错误",
       resetErr: "密码输入错误",
-      phoneErr: "",
-      isCodeAgain: false,
       resetEml: "",
       resetPwd: "",
       resetPwdRe: "",
       timer: null,
       authcode: "",
-      imgCodeErr: "验证码错误",
-      fourthStep: false
+      firstSend: true,
+      hasSend: false,
+      countDown: "120s",
+      waitTime: 0
     };
   },
   created() {
@@ -152,142 +139,126 @@ export default {
       this.$emit('close')
     },
     refreshImgCode() {
-      // let t = Math.random().toFixed(12)
-      // let src = '/register/captcha.png?t=' + t
-      // this.src = src
-      this.$axios
-        .get("/auth/captcha", {
-          t: Math.random()
-        })
-        .then(res => {
-          if(res.data.code === 0){
-
-          }
+      API.getCaptcha({t: Math.random()}).then(res => {
+        if(res.data.code === 0){
           this.imgCodeDom = res.data.img
-        })
+        } else {
+          
+        }
+      })
     },
     validateEmail(val) {
       let phone = val
-      if (phone.trim() !== "" && phone.indexOf("@") !== -1) {
-        this.isPhoneErr = false;
-        this.$axios
-          .post("/register/isUsernameValid", {
-            username: phone
-          })
-          .then(res => {
-            if (res.data.code === 1) {
-              this.isPhoneErr = false
-            } else {
-              this.isPhoneErr = true
-              this.phoneErr = "用户不存在"
-            }
-          });
-      } else {
+      if (!phone){
         this.isPhoneErr = true
-        this.phoneErr = "邮箱错误"
+        this.phoneErr = "请输入邮箱"
+      } else if (phone.indexOf("@") === -1) {
+        this.isPhoneErr = true
+        this.phoneErr = "邮箱格式错误"
+      } else {
+        this.isPhoneErr = false
+        API.isUsernameValid({username: phone}).then(res => {
+          if (res.data.code === 1) {
+            this.isPhoneErr = false
+          } else {
+            this.isPhoneErr = true
+            this.phoneErr = res.data.message
+          }
+        })
       }
     },
     validateImgCodeBlur(val) {
-      let authcode = val
-      let captcha = this.tool.cookie.get("captcha")
-      console.log(captcha, authcode)
-      if (captcha == authcode) {
-        this.isImgValicodeErr = false
-      } else {
+      let captcha = val
+      if(captcha.length !== 4){
         this.isImgValicodeErr = true
+        this.imgCodeErr = "验证码错误"
+      } else {
+        API.isCaptchaValid({captcha: captcha}).then(res => {
+          if(res.data.code===0){
+            this.isImgValicodeErr = false
+          } else {
+            this.isImgValicodeErr = true
+            this.imgCodeErr = res.data.message
+          }
+        })
       }
     },
     getCode() {
-      this.$axios
-        .post("/auth/sendEmailAuthcode", {
-          username: this.resetEmail
-        })
-        .then(res => {
+      console.log('getcode') 
+      debugger
+      API.sendEmailAuthcode({username: this.resetEmail}).then(res => {
+        console.log(res)
           if (res.data.code === 0) {
             this.firstSend = false
-            this.isCodeAgain = false
             this.startCount(res.data.time)
-            console.log(res.data)
-          } else if (res.data.code === 1) {
-            this.isResetError = true
+          } else {
+            this.isResetCodeError = true
+            this.resetCodeError = res.data.message
           }
-        });
-    },
-    nextStepValidate(val) {
-      let authcode = val;
-      if (authcode.trim() === "" || authcode.length !== 4) {
-        this.isImgValicodeErr = true
-      } else {
-        this.$axios
-          .post("/register/isCaptchaValid", {
-            captcha: authcode
-          })
-          .then(res => {
-            if (res.data.code === 0) {
-              this.isImgValicodeErr = false
-              this.isPhoneErr = false
-              this.secondStep = true
-            } else {
-              this.isPhoneErr = true
-            }
-          })
-      }
+        })
     },
     nextStepFirst() {
       if (this.isPhoneErr) {
-        return;
-      }
-      if (this.resetEmail && this.imgValicode) {
-        this.nextStepValidate(this.imgValicode);
-      } else if (!this.resetEmail) {
-        this.isImgValicodeErr = true
-        this.imgCodeErr = "请输入邮箱"
-      } else if (!this.imgValicode) {
+        this.isPhoneErr = true
+        this.phoneErr = "请输入邮箱"
+      } else if(!this.captcha) {
         this.isImgValicodeErr = true
         this.imgCodeErr = "请输入验证码"
+      } else {
+        API.isCaptchaValid({captcha: this.captcha}).then(res => {
+          if (res.data.code === 0) {
+            this.isImgValicodeErr = false
+            this.isPhoneErr = false
+            this.secondStep = true
+          } else {
+            this.isPhoneErr = true
+            this.phoneErr = res.data.message
+          }
+        })
       }
     },
-    isCodeValidM() {
-      this.$axios
-        .post("/auth/isEmailAuthcodeValid", {
-          authcode: this.resetCode
-        })
-        .then(res => {
+    nextStepSecond() {
+      if(!this.resetCode) {
+        this.isResetCodeError = true
+        this.resetCodeError = "请输入验证码"
+      } else {
+        API.isEmailAuthcodeValid({authcode: this.resetCode}).then(res => {
           if (res.data.code === 0) {
             this.firstStep = false
             this.secondStep = false
             this.thirdStep = true
-          } else if (res.data.code === 1) {
+          } else {
             this.isResetError = true
-            this.imgCodeErr = "验证码错误"
+            this.imgCodeErr = res.data.message
           }
-        });
-    },
-    nextStepSecond() {
-      this.isCodeValidM()
+        })
+      }
     },
     startCount(time) {
       this.timer = setInterval(() => {
         this.countDown = String(time--) + "s"
         if (time == 0) {
-          this.isCodeAgain = true
-          this.countDown = "120s"
           clearInterval(this.timer)
         }
       }, 1000);
     },
     reset() {
-      if (this.resetPwd !== this.resetPwdRe) {
+      if (!this.resetPwd) {
+        this.isResetErr = true
+        this.resetErr = '请输入密码'
+      } else if (!this.resetPwdRe) {
+        this.isResetErr = true
+        this.resetErr = '请输入确认密码'
+      } else if (this.resetPwd !== this.resetPwdRe) {
         this.isResetErr = true
         this.resetErr = '两次密码输入不一致'
       } else {
-        this.$axios
-          .post("/resetpwd", {
-            smscode: this.resetCode,
-            username: this.resetEmail,
-            pwd: this.resetPwd
-          })
-          .then(res => {
+        let data = {
+          smscode: this.resetCode,
+          username: this.resetEmail,
+          pwd: this.resetPwd
+        }
+        API.register(data).then(res => {
             if (res.data.code === 0) {
               this.fourthStep = true
               this.firstStep = false
@@ -296,12 +267,16 @@ export default {
               setTimeout(()=>{
                 this.fourthStep = false
               },1000)
-            } else if (res.data.code === 1) {
+            } else {
               this.isResetError = true
+              this.resetErr = res.data.message
             }
           })
       }
     }
+  },
+  components: {
+    InputBox
   },
   beforeDestory() {
     clearInterval(this.timer)

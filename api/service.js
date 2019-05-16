@@ -25,7 +25,7 @@ service.interceptors.response.use(response=>{
     return res
 },err=>{
     if(err.response && err.response.status == 404){
-        router.push('/demo.vue')
+        router.push('/demo')
     }
     return Promise.reject(err.response)
 })

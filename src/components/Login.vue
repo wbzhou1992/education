@@ -1,15 +1,5 @@
 <template>
   <div class="reg">
-      <!-- <div class="box-cont">
-        <div class="box">
-          <span class="text">邮箱</span>
-          <input v-model="phoneNum" placeholder="输入邮箱" @focus="isPhoneNumErr=false">
-        </div>
-        <div v-show="isPhoneNumErr" class="err-box">
-          <i class="err-icon"></i>
-          <span class="err">{{phoneNumErr}}</span>
-        </div>
-      </div> -->
       <InputBox 
             v-model.trim="phoneNum" 
             placeholder="输入邮箱" 

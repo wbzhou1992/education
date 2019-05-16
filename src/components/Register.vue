@@ -4,7 +4,6 @@
             v-model.trim="phone" 
             placeholder="注册邮箱" 
             label="邮箱" 
-            type="text"
             :errorMsg="phoneErr" 
             :errorShow="isPhoneErr" 
             @focus="isPhoneErr=false"
@@ -26,7 +25,7 @@
             v-model.trim="imgValicode" 
             placeholder="图形验证码" 
             label="验证码" 
-            type="text"
+            key="imgValicode"
             :disabled="isPhoneErr"
             :errorMsg="imgCodeErr" 
             :errorShow="isImgValicodeErr" 
@@ -42,13 +41,13 @@
             v-model.trim="valicode" 
             placeholder="邮箱验证码" 
             label="验证码" 
-            type="text"
+            key="valicode"
             :errorMsg="codeErr" 
             :errorShow="isValicodeErr" 
             @focus="isValicodeErr=false">
             <a class="validimg">
               <span class="again" v-if="firstSend" @click="sendEmail">发送验证码</span>
-              <span class="count" v-else-if="countDown>0">{{countDown}}</span>
+              <span class="count" v-else-if="waitTime>0">{{countDown}}</span>
               <span class="again" v-else @click="sendEmail">重新获取</span>
             </a>
       </InputBox>
@@ -68,6 +67,7 @@
 
 <script>
 import InputBox from './InputBox.vue'
+import API from '../../api/api'
 export default {
   name: "home",
   data() {
@@ -88,9 +88,10 @@ export default {
       isPwdErr: false,
       pwdErr: "密码输入错误",
       imgCodeDom: "",
-      countDown: "112s",
-      firstSend: false,
+      countDown: "120s",
+      firstSend: true,
       src: "",
+      waitTime: 0,
       timer: null
     }
   },
@@ -108,14 +109,7 @@ export default {
       this.isCheck = !this.isCheck
     },
     refreshImgCode () {
-        // let t = Math.random().toFixed(12)
-        // let src = '/register/captcha.png?t=' + t
-        // this.src = src
-        this.$axios
-        .get("/auth/captcha",{
-            t: Math.random()
-        })
-        .then(res => {
+        API.getCaptcha().then(res => {
           if(res.data.code == 0){
               this.imgCodeDom = res.data.img
           }
@@ -139,16 +133,12 @@ export default {
         this.phoneErr = "邮箱输入错误"
       } else if (phone.indexOf('@')!==-1) {
         this.isPhoneErr = false
-        this.$axios
-          .post("/register/isUsernameValid", {
-            username: phone
-          })
-          .then(res => {
-            if (res.data.code !== 0) {
-              this.isPhoneErr = true
-              this.phoneErr = res.data.message
-            }
-          })
+       API.isUsernameValid({username: phone}).then(res => {
+          if (res.data.code !== 0) {
+            this.isPhoneErr = true
+            this.phoneErr = res.data.message
+          }
+        })
       } 
     },
     validatePwd(val) {
@@ -156,26 +146,20 @@ export default {
     },
     validateImgCode(val) {
       let captcha = val;
-      // let captcha = this.tool.cookie.get("captcha")
       if(captcha.length !== 4){
         this.isImgValicodeErr = true
         this.imgCodeErr = "验证码错误"
       } else {
-        this.$axios
-          .post("/register/isCaptchaValid", {
-            captcha: captcha
-          })
-          .then(res => {
-            if(res.data.code===0){
-              this.isImgValicodeShow = false
-              this.isValidcodeShow = true
-
-              this.isImgValicodeErr = false
-            } else {
-              this.isImgValicodeErr = true
-              this.imgCodeErr = res.data.message
-            }
-          })
+        API.isCaptchaValid({captcha: captcha}).then(res => {
+          if(res.data.code===0){
+            this.isImgValicodeShow = false
+            this.isValidcodeShow = true
+            this.isImgValicodeErr = false
+          } else {
+            this.isImgValicodeErr = true
+            this.imgCodeErr = res.data.message
+          }
+        })
       }
     },
     validateImgCodeBlur(val) {
@@ -203,26 +187,25 @@ export default {
         this.isPwdErr = true
         this.pwdErr = "请输入密码"
       } else {
-        this.$axios
-          .post("/register", {
-            captcha: this.imgValicode,
-            username: this.phone,
-            password: this.password,
-            emailauthcode: this.valicode
-          })
-          .then(res => {
-            if(res.data.code === 0){
-              localStorage.setItem("token", res.data.token)
-              localStorage.setItem("token_exp",new Date().getTime() + 60 * 60 * 1000)
-              this.$store.dispatch("setUser", {
-                username: res.data.data.username,
-                image: res.data.data.image
-              })
-            } else {
-              this.isValicodeErr = true
-              this.codeErr = res.data.message
-            }
-          })
+        let data = {
+          captcha: this.imgValicode,
+          username: this.phone,
+          password: this.password,
+          emailauthcode: this.valicode
+        }
+        API.register(data).then(res => {
+          if(res.data.code === 0){
+            localStorage.setItem("token", res.data.token)
+            localStorage.setItem("token_exp",new Date().getTime() + 60 * 60 * 1000)
+            this.$store.dispatch("setUser", {
+              username: res.data.data.username,
+              image: res.data.data.image
+            })
+          } else {
+            this.isValicodeErr = true
+            this.codeErr = res.data.message
+          }
+        }) 
       } 
     },
     sendEmail () {
@@ -230,15 +213,15 @@ export default {
         this.isPhoneErr = true
         this.phoneErr = "请输入邮箱"
       } else {
-        this.$axios
-        .post("/auth/sendEmailAuthcode", {
-          username: this.phone
-        })
-        .then(res => {
+        API.sendemail({username: this.phone}).then(res => {
           if(res.data.code===0){
+            this.isValicodeErr = false
+            this.waitTime = res.data.time
             this.startCount(res.data.time)
+            this.firstSend = false
           } else {
             this.isValicodeErr = true
+            this.codeErr = res.data.message
           }
         })
       }
@@ -247,7 +230,6 @@ export default {
       this.timer = setInterval(()=>{
         this.countDown = String(time--)+'s'
         if(time==0){
-          this.firstSend = true
           clearInterval(this.timer)
         }
       },1000)
