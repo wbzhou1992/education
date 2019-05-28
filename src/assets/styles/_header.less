@@ -1,46 +1,105 @@
-.header{
-    height:56px;
-    line-height: 56px;
-    background: #111;
-    width: 100%;
-    color: #e8e8e8;
-    font-size: 14px;
-    min-width: 1140px;
-    .logo{
-        margin: 14px 30px auto 60px;
-        width: 122px;
-        height: 28px;
-        line-height: 56px;
-        padding-top:14px;
-        background: url(../images/logo.png) no-repeat;
-        background-size: contain;
+.top{
+    height: 110px;
+    padding: 25px 0;
+    width: 1200px;
+    margin: 0 auto;
+    span{
+        display: inline-block;
+    }
+    .divider{
+        width: 2px;
+        height: 40px;
+        background: #eee;
         float: left;
+        margin-top: 10px;
     }
-    .nav{
-        li{
-            float: left;
-            width: 80px;
-        }
-        .active{
-            color: #688AF4;
-        }
+    .logo{
+        width: 226px;
+        height: 58px;
+        float: left;
+        background: url(../images/logo.jpg) no-repeat;
+        background-size: contain;
+        padding-right: 30px;
+
     }
-    .login,.login-not{
-        margin-right: 60px;
-        li{
-            float: right;
-        }
-        img{
-            width: 30px;
-            height: 30px;
-            vertical-align: middle;
-            margin-right: 10px;
-        }
+    .motto{
+        width: 196px;
+        height: 58px;
+        line-height: 58px;
+        float: left;
+        background: url(../images/motto.png) no-repeat center center;
+        background-size: contain;
+        margin-left: 30px;
     }
-    .login{
-        li{
-            float: right;
-            width: 60px;
+    .phone{
+        float: right;
+        width: 36px;
+        height: 58px;
+        line-height: 58px;
+        background: url(../images/phone.jpg) no-repeat center center;
+        background-size: contain;
+        margin-left: 30px;
+    }
+    .number{
+        float: right;
+        width: 140px;
+        height: 58px;
+        line-height: 58px;
+        &:after{
+            display: table;
+            clear: both;
         }
     }
 }
+.bg{
+    background: #111;
+    width: 100%;
+    .header{
+        height:56px;
+        line-height: 56px;
+        background: #111;
+        width:1200px;
+        margin: 0 auto;
+        color: #e8e8e8;
+        font-size: 14px;
+        min-width: 1140px;
+        .logo{
+            margin: 14px 30px auto 0;
+            width: 122px;
+            height: 28px;
+            line-height: 56px;
+            padding-top:14px;
+            background: url(../images/logo.png) no-repeat;
+            background-size: contain;
+            float: left;
+        }
+        .nav{
+            li{
+                float: left;
+                width: 80px;
+            }
+            .active{
+                color: #688AF4;
+            }
+        }
+        .login,.login-not{
+            margin-right:0;
+            li{
+                float: right;
+            }
+            img{
+                width: 30px;
+                height: 30px;
+                vertical-align: middle;
+                margin-right: 10px;
+            }
+        }
+        .login{
+            li{
+                float: right;
+                width: 60px;
+            }
+        }
+    }
+}
+

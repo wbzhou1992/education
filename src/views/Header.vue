@@ -1,5 +1,15 @@
 <template>
-  <div class="header">
+<div>
+  <div class="top">
+    <span class="logo"></span>
+    <span class="divider"></span>
+    <span class="motto"></span>
+    <span class="number">400-1767-214</span>
+    <span class="phone"></span>
+    
+  </div>
+  <div class="bg">
+    <div class="header">
     <div class="logo"></div>
     <ul class="nav">
         <router-link v-for="li in nav" :to="li.path" tag="li" :key="li.name" active-class="active">{{li.name}}</router-link>
@@ -12,6 +22,8 @@
         <li>{{username}}</li>
         <li><img :src="image"></li>
     </ul>
+  </div>
+  </div>
   </div>
 </template>
 <script>

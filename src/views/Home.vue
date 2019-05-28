@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    <login class="log"></login>
+    <div class="log-box">
+      <login class="log"></login>
+    </div>
     <Swiper class="cf"></Swiper>
   </div>
 </template>
@@ -22,9 +24,15 @@ export default {
 .home{
   position: relative;
 }
+.log-box{
+  position: relative;
+  width: 1200px;
+  margin: 0 auto;
+
+}
 .log{
   position: absolute;
-  right: 36px;
+  right: 0;
   top: 40px;
   z-index: 100;
 }

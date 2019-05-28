@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from '../src/router';
+import qs from 'qs'
 const service = axios.create({
     timeout: 30000
 })
@@ -25,7 +26,7 @@ service.interceptors.response.use(response=>{
     return res
 },err=>{
     if(err.response && err.response.status == 404){
-        router.push('/demo.vue')
+        router.push('/demo')
     }
     return Promise.reject(err.response)
 })
@@ -43,11 +44,11 @@ export function post(url,data={}){
         url:url,
         method:'post',
         headers:{
-            'Content-Type':'application/json;charset=UTF-8'
+            'Content-Type':'application/x-www-form-urlencoded'
         },
         data:data
     }
-    obj.data = JSON.stringify(data)
+    obj.data = qs.stringify(data)
     return service(obj)
 }
 export {
