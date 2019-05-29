@@ -10,8 +10,31 @@
   </div>
   <div class="bg">
     <div class="header">
-    <div class="logo"></div>
+    <ul class="dropdown">
+      <li class="item"><em></em>注册消防工程师<i></i>
+      <ul class="submenu">
+        <li>消防工程师</li>
+        <li>消防工程师</li>
+        <li>消防工程师</li>
+        <li>消防工程师</li>
+        <li>消防工程师</li>
+        <li>消防工程师</li>
+      </ul>
+      </li>
+      <li><em></em>ACI国际注册营养师<i></i></li>
+      <li><em></em>执业药师<i></i></li>
+      <li><em></em>基金从业资格<i></i></li>
+      <li><em></em>银行业从业资格<i></i></li>
+      <li><em></em>国际金融理财师<i></i></li>
+      <li><em></em>税务师<i></i></li>
+      <li><em></em>注册会计师<i></i></li>
+      
+    </ul>
     <ul class="nav">
+      <li class="setting">
+        <i></i>
+        课程设置
+      </li>
         <router-link v-for="li in nav" :to="li.path" tag="li" :key="li.name" active-class="active">{{li.name}}</router-link>
     </ul>
     <ul class="login" v-if="!username">
@@ -34,11 +57,11 @@ export default {
     return {
       isLogin: false,
       nav:[
-        {path:'/home',name:'首页'},
-        {path:'/center',name:'课程中心'},
-        {path:'/teach',name:'辅导教材'},
-        {path:'/exam',name:'题库'},
-        {path:'/live',name:'直播'},
+        {path:'/home',name:'课程中心'},
+        {path:'/center',name:'教育研究院'},
+        {path:'/teach',name:'学习方式'},
+        {path:'/exam',name:'免费课程'},
+        {path:'/live',name:'直播课程'},
         {path:'/about',name:'关于我们'},
       ]
     }

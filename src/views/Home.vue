@@ -36,4 +36,10 @@ export default {
   top: 40px;
   z-index: 100;
 }
+.cf{
+  &:after{
+            display: table;
+            clear: both;
+        }
+}
 </style>

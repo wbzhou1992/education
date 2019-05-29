@@ -67,7 +67,7 @@ export default {
     top: 0;
 }
 .swiper-wrap{
-    height: 436px;
+    height: 424px;
     img{
       position: relative;
       height: 436px;
@@ -76,19 +76,19 @@ export default {
 .slide1{
   height: 100%;
   width: 100%;
-  background: url(./images/banner.jpg) no-repeat center top;
+  background: url(./images/1.jpg) no-repeat center top;
   background-size: cover;
 }
 .slide2{
     height: 100%;
   width: 100%;
-  background: url(./images/banner.jpg) no-repeat center top;
+  background: url(./images/2.jpg) no-repeat center top;
   background-size: cover;
 }
 .slide3{
     height: 100%;
   width: 100%;
-  background: url(./images/banner.jpg) no-repeat center top;
+  background: url(./images/3.jpg) no-repeat center top;
   background-size: cover;
 }
 </style>

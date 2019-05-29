@@ -52,34 +52,159 @@
     }
 }
 .bg{
-    background: #111;
+    background: #fff;
     width: 100%;
     .header{
         height:56px;
         line-height: 56px;
-        background: #111;
+        background: #fff;
         width:1200px;
         margin: 0 auto;
-        color: #e8e8e8;
+        color: #000;
         font-size: 14px;
         min-width: 1140px;
-        .logo{
-            margin: 14px 30px auto 0;
-            width: 122px;
-            height: 28px;
-            line-height: 56px;
-            padding-top:14px;
-            background: url(../images/logo.png) no-repeat;
-            background-size: contain;
-            float: left;
+        position: relative;
+        .dropdown{
+            position: absolute;
+            top: 56px;
+            z-index: 4;
+            background: rgba(4, 10, 23, 0.8);
+            color: #fff;
+            width: 240px;
+            font-size: 14px;
+            text-align: left;
+            >li{
+                &:hover{
+                    background: #000;
+                    .submenu{
+                        display: block;
+                    }
+                }
+                padding-left: 25px;
+                line-height: 52px;
+                border-bottom: 1px solid #1a1c1e;
+                position: relative;
+                .submenu{
+                    display: none;
+                    position: absolute;
+                    left: 240px;
+                    top: 0;
+                    background: rgba(0,0,0,.5);
+                    
+                    >li{
+                        width: 100px;
+                        text-align: center;
+                    }
+                }
+                em{
+                    width: 20px;
+                    height: 20px;
+                    vertical-align: middle;
+                    background: url(../images/icon.png) no-repeat;
+                    margin-right: 10px;
+                }
+                i{
+                    width: 14px;
+                    height: 14px;
+                    vertical-align: middle;
+                    background: url(../images/sprite.png) no-repeat;
+                    background-position: -29px 0;
+                    margin-left: 40px;
+                    position: absolute;
+                    right: 26px;
+                    top: 20px;
+                }
+            }
+            em,i{
+                display: inline-block;
+            }
+            li:nth-child(1) {
+                em{
+                    background-position: 0 0;
+                }
+            }
+            li:nth-child(2) {
+                em{
+                    background-position: 0 -49px;
+                }
+            }
+            li:nth-child(3) {
+                em{
+                    background-position: 0px -102px;
+                }
+            }
+            li:nth-child(4) {
+                em{
+                    background-position: 0px -153px;
+                }
+            }
+            li:nth-child(5) {
+                em{
+                    background-position: 0px -205px;
+                }
+            }
+            li:nth-child(6) {
+                em{
+                    background-position: 0px -257px
+                }
+            }
+            li:nth-child(7) {
+                em{
+                    background-position: 0px -310px;
+                }
+            }
+            li:nth-child(8) {
+                em{
+                    background-position: 0px -362px;
+                }
+            }
         }
         .nav{
             li{
                 float: left;
-                width: 80px;
+                padding: 0 21px;
+                font-size: 16px;
+                position: relative;
+                :first-of-type{
+                    &:hover{
+                        color: #015198;
+                        .submenu{
+                            display: block;
+                        }
+                    } 
+                }
+                &:hover{
+                    color: #015198;
+                    &:before{
+                        content: '';
+                        width: 100%;  
+                        position: absolute; 
+                        height: 3px; 
+                        background: #015198; 
+                        left: 0;  
+                        bottom: 0;
+                        
+                    }
+                }
             }
             .active{
                 color: #688AF4;
+            }
+            .setting{
+                width: 240px;
+                background: #015198;
+                color: #fefefe;
+                font-size: 18px;
+                text-align: center;
+                margin-right: 40px;
+                i{
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: 16px;
+                    height: 14px;
+                    background: url(../images/sprite.png) no-repeat;
+                    background-position: 0 0;
+                }
             }
         }
         .login,.login-not{
