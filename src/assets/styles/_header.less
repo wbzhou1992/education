@@ -75,6 +75,7 @@
             text-align: left;
             >li{
                 &:hover{
+                    cursor: pointer;
                     background: #000;
                     .submenu{
                         display: block;
@@ -160,14 +161,17 @@
             }
         }
         .nav{
+            display: flex;
+            justify-content: space-between;
             li{
-                float: left;
+               
                 padding: 0 21px;
                 font-size: 16px;
                 position: relative;
                 :first-of-type{
                     &:hover{
                         color: #015198;
+                        cursor: pointer;
                         .submenu{
                             display: block;
                         }
@@ -175,6 +179,7 @@
                 }
                 &:hover{
                     color: #015198;
+                    cursor: pointer;
                     &:before{
                         content: '';
                         width: 100%;  

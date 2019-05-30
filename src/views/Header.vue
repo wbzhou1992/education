@@ -14,11 +14,9 @@
       <li class="item"><em></em>注册消防工程师<i></i>
       <ul class="submenu">
         <li>消防工程师</li>
-        <li>消防工程师</li>
-        <li>消防工程师</li>
-        <li>消防工程师</li>
-        <li>消防工程师</li>
-        <li>消防工程师</li>
+        <li>天安财险</li>
+        <li>教辅用书</li>
+        <li>课程中心</li>
       </ul>
       </li>
       <li><em></em>ACI国际注册营养师<i></i></li>
@@ -37,14 +35,14 @@
       </li>
         <router-link v-for="li in nav" :to="li.path" tag="li" :key="li.name" active-class="active">{{li.name}}</router-link>
     </ul>
-    <ul class="login" v-if="!username">
+    <!-- <ul class="login" v-if="!username">
         <router-link to="/home" tag="li">登录</router-link>
         <router-link to="/home" tag="li">注册</router-link>
     </ul>
     <ul class="login-not" v-else>
         <li>{{username}}</li>
         <li><img :src="image"></li>
-    </ul>
+    </ul> -->
   </div>
   </div>
   </div>
@@ -62,7 +60,10 @@ export default {
         {path:'/teach',name:'学习方式'},
         {path:'/exam',name:'免费课程'},
         {path:'/live',name:'直播课程'},
+        {path:'/live',name:'最新资讯'},
         {path:'/about',name:'关于我们'},
+        {path:'/about',name:'售后服务'},
+        
       ]
     }
   },
