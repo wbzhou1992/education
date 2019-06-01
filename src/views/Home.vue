@@ -41,6 +41,9 @@
       </ul>
     </div>
     <NewsCenter></NewsCenter>
+    <CourseCenter></CourseCenter>
+    <FreeCourse></FreeCourse>
+    <TeacherTeam></TeacherTeam>
   </div>
 </template>
 
@@ -49,13 +52,19 @@
 import Swiper from '@/components/Swiper.vue'
 import login from '@/components/HomeLogin.vue'
 import NewsCenter from '@/components/NewsCenter.vue'
+import CourseCenter from '@/components/CourseCenter.vue'
+import FreeCourse from '@/components/FreeCourse.vue'
+import TeacherTeam from '@/components/TeacherTeam.vue'
 
 export default {
   name: 'home',
   components: {
     Swiper,
     login,
-    NewsCenter
+    NewsCenter,
+    CourseCenter,
+    FreeCourse,
+    TeacherTeam
   }
 }
 </script>
