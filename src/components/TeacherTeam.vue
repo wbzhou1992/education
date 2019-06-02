@@ -1,7 +1,7 @@
 <template>
   <div class="teacherteam">
     <div class="wrap">
-      <h2>消防课程中心</h2>
+      <h2>讲师团队</h2>
       <div class="teacherteambox">
         <ul>
           <li>
@@ -51,7 +51,8 @@ export default {};
   width: 100%;
   padding: 0 30px 30px;
   background: #f4f4f4;
-  overflow: auto;
+  overflow: hidden;
+  min-width: 1200px;
   .wrap {
       width: 1200px;
       margin: 0 auto;

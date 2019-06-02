@@ -1,7 +1,7 @@
 <template>
   <div class="serviceteam">
     <div class="wrap">
-      <h2>消防课程中心</h2>
+      <h2>服务团队</h2>
       <div class="serviceteambox">
         <ul>
           <li>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style lang="less">
@@ -35,7 +35,8 @@ export default {};
   width: 100%;
   padding: 0 30px 30px;
   background: #fff;
-  overflow: auto;
+  overflow: hidden;
+  min-width: 1200px;
   .wrap {
       width: 1200px;
       margin: 0 auto;

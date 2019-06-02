@@ -4,35 +4,11 @@
       <div class="wrap">
         <div class="historybox">
           <ul>
-            <li>
+            <li v-for="(item,index) in list" :key="index">
               <div class="desc">
                 <i></i>
-                <span>在线视频</span>
-                <p>十二年发展回顾</p>
-              </div>
-              <div class="ani"></div>
-            </li>
-            <li>
-              <div class="desc">
-                <i></i>
-                <span>在线视频</span>
-                <p>十二年发展回顾</p>
-              </div>
-              <div class="ani"></div>
-            </li>
-            <li>
-              <div class="desc">
-                <i></i>
-                <span>在线视频</span>
-                <p>十二年发展回顾</p>
-              </div>
-              <div class="ani"></div>
-            </li>
-            <li>
-              <div class="desc">
-                <i></i>
-                <span>在线视频</span>
-                <p>十二年发展回顾</p>
+                <span>{{item.name}}</span>
+                <p>{{item.meta}}</p>
               </div>
               <div class="ani"></div>
             </li>
@@ -42,40 +18,12 @@
     </div>
     <div class="data">
       <ul>
-        <li>
+        <li v-for="(item,index) in dataList" :key="index">
           <div>
-            <h1>12</h1>
-            <span>年</span>
+            <h1>{{item.number}}</h1>
+            <span>{{item.unit}}</span>
           </div>
-          <em>教育培训经验</em>
-        </li>
-        <li>
-          <div>
-            <h1>60</h1>
-            <span>年</span>
-          </div>
-          <em>教育培训经验</em>
-        </li>
-        <li>
-          <div>
-            <h1>2.7</h1>
-            <span>年</span>
-          </div>
-          <em>教育培训经验</em>
-        </li>
-        <li>
-          <div>
-            <h1>172</h1>
-            <span>年</span>
-          </div>
-          <em>教育培训经验</em>
-        </li>
-        <li>
-          <div>
-            <h1>1.2</h1>
-            <span>年</span>
-          </div>
-          <em>教育培训经验</em>
+          <em>{{item.meta}}</em>
         </li>
       </ul>
     </div>
@@ -83,7 +31,25 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data () {
+    return {
+      list: [
+        {name:'感恩有你',meta:'十二年发展回归'},
+        {name:'引领行业',meta:'育人培训体系'},
+        {name:'务实创新',meta:'互联网+教育'},
+        {name:'教育机构',meta:'年度品牌影响力'}
+      ],
+      dataList: [
+        {number:12,meta:'教育培训经验',unit:'年'},
+        {number:60,meta:'市场占有率',unit:'%'},
+        {number:2.7,meta:'学员同时在线',unit:'万'},
+        {number:172,meta:'注册用户',unit:'万'},
+        {number:1.2,meta:'总访问量',unit:'亿'}
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="less">
@@ -91,7 +57,7 @@ export default {};
   width: 100%;
   padding: 0 30px 30px;
   background: #1d88e7;
-  overflow: auto;
+  overflow: hidden;
   .wrap {
     width: 1200px;
     margin: 0 auto;
@@ -114,8 +80,8 @@ export default {};
             position: relative;
             i {
               display: block;
-              width: 33px;
-              height: 33px;
+              width: 55px;
+              height: 55px;
               background: url(./images/feature.png) no-repeat;
               margin: 80px auto 24px;
             }
@@ -146,17 +112,17 @@ export default {};
 
           &:nth-child(1) {
             i {
-              background-position: -87px -39px;
+              background-position: -88px -132px;
             }
           }
           &:nth-child(2) {
             i {
-              background-position: -130px -39px;
+              background-position: -152px -132px;
             }
           }
           &:nth-child(3) {
             i {
-              background-position: -169px -39px;
+              background-position: -210px -122px;
             }
           }
           &:nth-child(4) {
@@ -172,7 +138,7 @@ export default {};
               top: 60px;
             }
             i {
-              background-position: -214px -39px;
+              background-position: -97px -199px;
             }
           }
         }

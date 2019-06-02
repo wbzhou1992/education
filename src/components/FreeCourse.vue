@@ -1,7 +1,7 @@
 <template>
   <div class="freecourse">
     <div class="wrap">
-      <h2>消防课程中心</h2>
+      <h2>免费视频</h2>
       <div class="freecoursebox">
         <ul>
           <li>

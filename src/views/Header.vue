@@ -13,20 +13,14 @@
     <ul class="dropdown">
       <li class="item"><em></em>注册消防工程师<i></i>
       <ul class="submenu">
+         <li v-for="(item,index) in submenuList" :key="index">
         <li>消防工程师</li>
         <li>天安财险</li>
         <li>教辅用书</li>
         <li>课程中心</li>
       </ul>
       </li>
-      <li><em></em>ACI国际注册营养师<i></i></li>
-      <li><em></em>执业药师<i></i></li>
-      <li><em></em>基金从业资格<i></i></li>
-      <li><em></em>银行业从业资格<i></i></li>
-      <li><em></em>国际金融理财师<i></i></li>
-      <li><em></em>税务师<i></i></li>
-      <li><em></em>注册会计师<i></i></li>
-      
+      <li v-for="(item,index) in menuList" :key="index"><em></em>{{item.name}}<i></i></li>
     </ul>
     <ul class="nav">
       <li class="setting">
@@ -35,14 +29,6 @@
       </li>
         <router-link v-for="li in nav" :to="li.path" tag="li" :key="li.name" active-class="active">{{li.name}}</router-link>
     </ul>
-    <!-- <ul class="login" v-if="!username">
-        <router-link to="/home" tag="li">登录</router-link>
-        <router-link to="/home" tag="li">注册</router-link>
-    </ul>
-    <ul class="login-not" v-else>
-        <li>{{username}}</li>
-        <li><img :src="image"></li>
-    </ul> -->
   </div>
   </div>
   </div>
@@ -64,6 +50,21 @@ export default {
         {path:'/about',name:'关于我们'},
         {path:'/about',name:'售后服务'},
         
+      ],
+      menuList:[
+        {name:'ACI国际注册营养师'},
+        {name:'执业药师'},
+        {name:'基金从业资格'},
+        {name:'银行业从业资格'},
+        {name:'国际金融理财师'},
+        {name:'税务师'},
+        {name:'注册会计师'}
+      ],
+      submenuList:[
+        {name:'消防工程师'},
+        {name:'天安财险'},
+        {name:'教辅用书'},
+        {name:'课程中心'}
       ]
     }
   },

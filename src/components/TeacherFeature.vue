@@ -1,44 +1,14 @@
 <template>
   <div class="teacherfeature">
     <div class="wrap">
-      <h2>消防课程中心</h2>
+      <h2>讲师团队</h2>
       <div class="teacherfeaturebox">
         <ul>
-          <li>
+          <li v-for="(item,index) in list" :key="index">
             <i></i>
-            <span>在线视频</span>
+            <span>{{item.name}}</span>
             <em></em>
-            <p>班主任一对一管理</p>
-          </li>
-           <li>
-            <i></i>
-            <span>在线视频</span>
-            <em></em>
-            <p>班主任一对一管理</p>
-          </li>
-          <li>
-            <i></i>
-            <span>在线视频</span>
-            <em></em>
-            <p>班主任一对一管理</p>
-          </li>
-          <li>
-            <i></i>
-            <span>在线视频</span>
-            <em></em>
-            <p>班主任一对一管理</p>
-          </li>
-          <li>
-            <i></i>
-            <span>在线视频</span>
-            <em></em>
-            <p>班主任一对一管理</p>
-          </li>
-          <li>
-            <i></i>
-            <span>在线视频</span>
-            <em></em>
-            <p>班主任一对一管理</p>
+            <p>{{item.meta}}</p>
           </li>
         </ul>
       </div>
@@ -47,7 +17,22 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data () {
+    return {
+      list:[
+        {name:'在线视频',meta:'可互动可随时提问 ,还有快速更新的直播课程'},
+        {name:'题型专练',meta:'对难点考点划分专项,智能算法不懂的反复练习'},
+        {name:'模拟试题',meta:'12年经验累积出题,考前预测，名家解析'},
+        {name:'讲师团队',meta:'可互动可随时提问 ,还有快速更新的直播课程'},
+        {name:'1对1班主任',meta:'专属于你的贴心服务,快速高效解决疑难问题'},
+        {name:'离线缓存',meta:'缓存后无限次观看 反复学习加深记忆'},
+        {name:'历年真题',meta:'做题后即刻形成答卷分析,多个科目真题全覆盖'},
+        {name:'考试管理',meta:'考试倒计时及学习记录等,根据时间安排学习进度'}
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="less">
@@ -55,7 +40,8 @@ export default {};
   width: 100%;
   padding: 0 30px 30px;
   background: #f4f4f4;
-  overflow: auto;
+  overflow: hidden;
+  min-width: 1200px;
   .wrap {
       width: 1200px;
       margin: 0 auto;
@@ -145,6 +131,37 @@ export default {};
           }
           i{
             background-position: -214px -39px;
+          }
+        }
+        &:nth-child(5){
+          i{
+            background-position: -87px -81px;
+          }
+        }
+        &:nth-child(6){
+          i{
+            background-position: -130px -81px;
+          }
+        }
+        &:nth-child(7){
+          i{
+            background-position: -171px -81px;
+          }
+        }
+        &:nth-child(8){
+          i{
+            background-position: -214px -81px;
+          }
+          margin-right: 0;
+          &:after{
+            content: "";
+            display: inline-block;
+            position: absolute;
+            height: 100px;
+            background: #eee;
+            width: 0;
+            right: -3px;
+            top:60px;
           }
         }
       }
