@@ -277,13 +277,5 @@ export default {
 }
 </script>
 <style lang="less">
-.home {
-  position: relative;
-}
-.log {
-  position: absolute;
-  right: 36px;
-  top: 40px;
-  z-index: 100;
-}
+
 </style>

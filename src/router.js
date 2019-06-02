@@ -9,18 +9,17 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: '',
-      redirect: '/home',
-      component:index,
-      children: [
-        {
-          path: '/home',
-          meta: {
-            title: '首页'
-          },
-          component: Home
-        }
-      ]
+      name: 'home',
+      component:Home,
+      // children: [
+      //   {
+      //     path: '/home',
+      //     meta: {
+      //       title: '首页'
+      //     },
+      //     component: Home
+      //   }
+      // ]
     },
     {
       path: '/about',
