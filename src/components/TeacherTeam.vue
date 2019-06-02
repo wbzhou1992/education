@@ -5,7 +5,7 @@
       <div class="teacherteambox">
         <ul>
           <li>
-            <img src="./images/new2.jpg">
+            <img src="./images/t1.jpg">
             <p class="name">程老师</p>
             <div class="btn">注册消防讲师</div>
            <p class="tips">
@@ -13,7 +13,7 @@
             </p>
           </li>
            <li>
-            <img src="./images/new2.jpg">
+            <img src="./images/t2.jpg">
             <p class="name">程老师</p>
             <div class="btn">注册消防讲师</div>
             <p class="tips">
@@ -21,7 +21,7 @@
             </p>
           </li>
            <li>
-            <img src="./images/new2.jpg">
+            <img src="./images/t3.jpg">
             <p class="name">程老师</p>
             <div class="btn">注册消防讲师</div>
             <p class="tips">
@@ -29,7 +29,7 @@
             </p>
           </li>
            <li>
-            <img src="./images/new2.jpg">
+            <img src="./images/t4.jpg">
             <p class="name">程老师</p>
             <div class="btn">注册消防讲师</div>
             <p class="tips">

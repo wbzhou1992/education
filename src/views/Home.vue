@@ -44,6 +44,10 @@
     <CourseCenter></CourseCenter>
     <FreeCourse></FreeCourse>
     <TeacherTeam></TeacherTeam>
+    <ServiceTeam></ServiceTeam>
+    <TeacherFeature></TeacherFeature>
+    <History></History>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -55,6 +59,10 @@ import NewsCenter from '@/components/NewsCenter.vue'
 import CourseCenter from '@/components/CourseCenter.vue'
 import FreeCourse from '@/components/FreeCourse.vue'
 import TeacherTeam from '@/components/TeacherTeam.vue'
+import ServiceTeam from '@/components/ServiceTeam.vue'
+import TeacherFeature from '@/components/TeacherFeature.vue'
+import History from '@/components/History.vue'
+import Footer from './Footer.vue'
 
 export default {
   name: 'home',
@@ -64,7 +72,11 @@ export default {
     NewsCenter,
     CourseCenter,
     FreeCourse,
-    TeacherTeam
+    TeacherTeam,
+    ServiceTeam,
+    TeacherFeature,
+    History,
+    Footer
   }
 }
 </script>
