@@ -6,6 +6,7 @@
     </div>
     <Swiper class="cf"></Swiper>
     <CourseSetting></CourseSetting>
+    <CourseVideo></CourseVideo>
     <NewsCenter></NewsCenter>
     <CourseCenter></CourseCenter>
     <FreeCourse></FreeCourse>
@@ -31,7 +32,7 @@ import ServiceTeam from '@/components/ServiceTeam.vue'
 import TeacherFeature from '@/components/TeacherFeature.vue'
 import History from '@/components/History.vue'
 import Footer from './Footer.vue'
-
+import CourseVideo from '@/components/CourseVideo.vue'
 export default {
   name: 'home',
   components: {
@@ -46,7 +47,8 @@ export default {
     ServiceTeam,
     TeacherFeature,
     History,
-    Footer
+    Footer,
+    CourseVideo
   }
 }
 </script>

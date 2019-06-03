@@ -8,6 +8,8 @@ import 'swiper/dist/css/swiper.css'
 import axios from 'axios'
 import tool from './assets/scripts/tool.js'
 Vue.config.productionTip = false;
+
+// const dp = new DPlayer(options);
 //设置axios为form-data
 // axios.defaults.transformRequest = [function (data) {
 //     let ret = ''

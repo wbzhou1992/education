@@ -13,6 +13,7 @@ arrProxy.forEach((item, i) => {
 })
 
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production' ? './':'/',
   assetsDir: 'static',
   chainWebpack: config => {
     config.devServer.proxy(proxy)
