@@ -117,7 +117,7 @@ export default {
         // let t = Math.random().toFixed(12)
         // let src = '/register/captcha.png?t=' + t
         // this.src = src
-        this.$axios
+        this.$http
         .get("/register/authcode",{
             t:Math.random()
         })

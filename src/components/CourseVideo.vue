@@ -19,7 +19,7 @@ export default {
       container: this.$refs.dplayer,
       screenshot: true,
       video: {
-        url: "../static/videos/1.mp4"
+        url: "./static/videos/1.mp4"
       },
       subtitle: {
         url: "webvtt.vtt"

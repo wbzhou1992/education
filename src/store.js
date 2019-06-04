@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import tool from './assets/scripts/tool.js'
-
-Vue.use(Vuex)
-
+if(process.env.NODE_ENV === 'development'){
+  Vue.use(Vuex)
+}
 export default new Vuex.Store({
   state: {
     username:tool.cookie.get('user'),
