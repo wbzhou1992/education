@@ -3,10 +3,10 @@ const proxy = {}
 const arrProxy = ['/register', '/login', '/info','/signout','/resetpwd','/auth']
 let isProduction = process.env.NODE_ENV === 'production' ? true :false
 const cdn = {
-  js: [ '<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>',
-  '<script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>',
-  '<script src="https://cdn.bootcss.com/vuex/3.1.1/vuex.min.js"></script>',
-  '<script src="https://cdn.bootcss.com/vue-router/3.0.6/vue-router.min.js"></script>']
+  js: [ "https://cdn.bootcss.com/vue/2.6.10/vue.min.js",
+  "https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js",
+  "https://cdn.bootcss.com/vuex/3.1.1/vuex.min.js",
+  "https://cdn.bootcss.com/vue-router/3.0.6/vue-router.min.js"]
 }
 arrProxy.forEach((item, i) => {
   proxy[item] = {
