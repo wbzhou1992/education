@@ -24,3 +24,6 @@ npm run test
 ```
 npm run lint
 ```
+
+展示
+![首页](2.png)
